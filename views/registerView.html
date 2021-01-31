@@ -1,0 +1,34 @@
+<div class="col-md-12">
+    <p><strong>Register Page</strong></p>
+    
+    <form ng-submit="registerForm()" class="form">
+    <div class="col-md-4">
+    <div class="form-group">
+    <input type="text" class="form-control" ng-model="newuser.fname" placeholder="first name" required=""/>
+    </div>
+    
+    <div class="form-group">
+        <input type="text" class="form-control" ng-model="newuser.lname" placeholder="last name" required=""/>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" ng-model="newuser.email" placeholder="email" required=""/>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" ng-model="newuser.username" placeholder="username" required=""/>
+    </div>
+
+
+    <div class="form-group">
+    <input type="password" class="form-control" ng-model="newuser.password" placeholder="password" required=""/>
+    </div>
+    
+    <div class="form-group">
+    <button type="submit" class="btn btn-success">Register</button>
+    <span class="text-danger" style="color:red">{{ error }}</span>
+    </div>
+    
+    </div>
+    </form>
+    </div>

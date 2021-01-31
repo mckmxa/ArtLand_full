@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="artland">
+    <head>
+        <title>Sklep</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="views/css/reset.css" rel="stylesheet" type="text/css"/>
+        <link href="views/css/main.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div class="grid-container" >
+            <div class="Header">
+                <div class="Logo">
+                    <div> <a href="#!/"> <img src="views/images/logo.png" alt="ArtLand"></a> </div>
+                </div>
+                <div class="Search">
+                    <input type="text" id="searchBar" placeholder="Wyszukaj..." />
+                    <button>Wyszukaj</button>
+                </div>
+                
+                <div class="Menu">
+                    <div class="Upanel">
+                        <div>Panel użytkownika</div>
+                        <div>Zamówienia</div>
+                        <div>Koszyk</div>
+                    </div>
+                    <div class="Lpanel">
+                        <div id="loginBtn">Login</div>
+                        <div>Rejestracja</div>
+                        <div> <a href="#!/login" style="color:white"> Login</a> </div>
+                        <div> <a href="#!/register" style="color:white"> Register</a> </div>
+                        <div ng-controller="logoutCtrl"> {{login_status}}  </div>
+                        <div ng-controller="logoutCtrl"> <button id="logoutAnyFunction" type="submit" ng-click="anyFunction()" ng-disabled="!isLogged()" >Log Out</button> </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div id="loginModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <form method="post">
+                    <label>Login</label> <input type="text" name="login"/><br />
+                    <label>Hasło</label> <input type="password" name="password" /><br />
+                    <button id="loginSubmit">Zaloguj</button>
+                  </form>
+                </div>
+              
+             </div>
+            <div class="Container">
+                <!-- wczytywanie  produktów ngrepeatem -->
+                <div ng-app="artland" ng controller="productsCtrl" class="item" ng-repeat="x in products">
+                    <div class="image">  <a href="#!/product/{{ x.id }}" ><img src="{{x.image}}" /></a> </div>
+                    <div class="iName">{{x.name}}</div>
+                    <div class="iPrice">{{x.price}} zł</div>
+                    <div class="iBuy">
+                        <button>Kup</button>
+                    </div>
+                </div>
+            </div>
+            
+          </div>
+          <script>
+            var modal = document.getElementById("loginModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("loginBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on the button, open the modal
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            }
+            </script>
+    </body>
+</html>

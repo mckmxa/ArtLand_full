@@ -1,0 +1,148 @@
+:root {
+    --main-color-gray: #373737;
+    --main-color-white: #f1f1f1;
+    --main-color-red: #C90E0E;
+}
+
+
+
+.grid-container {
+    width: 100vw;
+    height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1.5fr 5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "Header Header Header Header"
+    "Container Container Container Container";
+  text-align: center;
+}
+ 
+.Header {     
+    grid-area: Header; 
+    display: inline-grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "Logo Search Menu";
+    align-items: center;
+    justify-content: center;
+    
+    background: var(--main-color-gray);
+    color: var(--main-color-white);
+}
+.Logo {
+    grid-area: Logo;
+    margin-top: 10px;
+}
+.Search {
+    
+    grid-area: Search;
+}
+.Search input {
+    width: 80%;
+    border: 0;
+    padding: 20px;
+}
+.Search button {
+    background: var(--main-color-red);
+    width: 19%;
+    border: 0;
+    padding: 20px;
+    color: var(--main-color-white);
+}
+.Menu {
+    grid-area: Menu;
+}
+.Container { 
+    grid-area: Container; 
+    background: var(--main-color-white);
+    overflow-y: scroll; 
+}
+
+
+.item {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "item-Image"
+        "item-Name"
+        "item-Price"
+        "item-Buy";
+    text-align: center;
+    height: 300px;
+    width: 230px;
+    background: red;
+    float: left;
+    margin: 5px;
+}
+.item .image{
+    grid-area: item-Image;
+}
+.iName {
+    grid-area: item-Name;
+}
+.iPrice {
+    grid-area: item-Price;
+}
+
+.iBuy {
+    grid-area: item-Buy;
+}
+
+.Menu div {
+    margin: 10px 0;
+    text-align: left;
+    font-size: 16px;
+}
+.Menu {
+    padding-left: 80px;
+}
+.Upanel {
+    display: none;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .item .image img {
+	width: 100%;
+}
