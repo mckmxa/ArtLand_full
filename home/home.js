@@ -1,4 +1,4 @@
-angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtrl', logoutCtrl).controller('productCtrl', productCtrl)
+angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtrl', logoutCtrl).controller('productCtrl', productCtrl).controller('alertCtrl', alertCtrl)
   
   
     homeCtrl.$inject = ['$scope', '$http' ,'$location', 'Session'];
@@ -28,9 +28,8 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
             
             $location.path('/home')
           },function errorCallback(response) {
-            console.log(response.data.success)
-            // ALERT ON WRONG CREDENTIALS??
-            // TODO
+            console.log("failed to login - succes status: " + response.data.success)
+            $scope.error = "Błąd logowania"
 
           });
   
@@ -112,6 +111,16 @@ function productCtrl($http,$routeParams,$scope) {
   $scope.productID= $routeParams.id;
   console.log($scope.productID);
 }
+
+function alertCtrl($scope, $window)  {
+
+
+            $scope.invalidLogin = "Wrong password or username";
+            $scope.clickMe = angularAlert => {    
+                $window.alert(angularAlert);   
+            };   
+        }    
+
 
 
 

@@ -1,7 +1,10 @@
 <div ng-repeat="x in products">
     <h1>Nazwa : {{x.name}}</h1>
     <h1>Cena : {{x.price}} zł</h1>
-    <img src="{{x.image}}" />
+    <h1>Kategoria : {{x.category}}</h1>
+    <h1>Opis : {{x.description}}</h1>
+    <h1>Krotki opis : {{x.short_desc}}</h1>
+    <img ng-src="{{x.image}}">
     
 </div>
 

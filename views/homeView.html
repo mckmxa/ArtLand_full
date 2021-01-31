@@ -56,7 +56,7 @@ and open the template in the editor.
             <div class="Container">
                 <!-- wczytywanie  produktów ngrepeatem -->
                 <div ng-app="artland" ng controller="productsCtrl" class="item" ng-repeat="x in products">
-                    <div class="image">  <a href="#!/product/{{ x.id }}" ><img src="{{x.image}}" /></a> </div>
+                    <div class="image">  <a href="#!/product/{{ x.id }}" ><img ng-src="{{x.image}}"></a> </div>
                     <div class="iName">{{x.name}}</div>
                     <div class="iPrice">{{x.price}} zł</div>
                     <div class="iBuy">
