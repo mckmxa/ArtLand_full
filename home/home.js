@@ -28,8 +28,9 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
             
             $location.path('/home')
           },function errorCallback(response) {
+            console.log(response)
             console.log("failed to login - succes status: " + response.data.success)
-            $scope.error = "Błąd logowania"
+            $scope.error = response.data.error;
 
           });
   
@@ -49,11 +50,26 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
                console.log(response);
                $location.path('/login')
               },function errorCallback(response) {
+                $scope.invalidPassword = "Hasło musi mieć co najmniej 6 znaków!"
+                $scope.invalidEmail = "Niepoprawny format e-maila!"
                 console.log(response)
-                // ALERT ON WRONG REGISTER DATA
-                // ERROR ARRAY OK IN RESPONSE
-                // TODO
-    
+                console.log(response.data.errors[0].param)
+
+                let errors = [];
+                errors = response.data.errors
+                console.log(errors);
+                
+                for (var i = 0; i < errors.length; i++) {
+                  if(errors[i].param == "email")
+                  {
+                    $scope.error = "Invalid email format";
+
+                  }
+                  if(errors[i].param == "password")
+                  {
+                    $scope.error = errors[i].msg
+                  }
+                }
               });
       }
 
@@ -115,7 +131,7 @@ function productCtrl($http,$routeParams,$scope) {
 function alertCtrl($scope, $window)  {
 
 
-            $scope.invalidLogin = "Wrong password or username";
+            $scope.angularAlert = "default alert"
             $scope.clickMe = angularAlert => {    
                 $window.alert(angularAlert);   
             };   

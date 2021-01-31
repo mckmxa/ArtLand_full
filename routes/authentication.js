@@ -25,7 +25,7 @@ router.post('/register', [
     check('email').isEmail().not().isEmpty().withMessage('Field can\'t be empty')
         .normalizeEmail({all_lowercase: true}),
     check('password').escape().trim().not().isEmpty().withMessage('Field can\'t be empty')
-        .isLength({min: 6}).withMessage("must be 6 characters long"),
+        .isLength({min: 6}).withMessage("Password must be 6 characters long"),
     body('email').custom((value, {req}) => {
         return new Promise((resolve, reject) => {
          db.database.query(`SELECT username FROM users WHERE email = ?`, req.body.email,(err,res)=> 
