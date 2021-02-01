@@ -92,15 +92,15 @@ function logoutCtrl($rootScope, $scope, AuthService, $location, $route) {
   console.log(AuthService.isLoggedIn())
   var user = AuthService.getUser();
 
-  $rootScope.login_status = "Logged in as ";
+  $rootScope.login_status = "Hello ";
   if(user.username)
-  $rootScope.login_status = $rootScope.login_status + user.username;
+  $rootScope.login_status = $rootScope.login_status + user.username + "!"
   else
   $rootScope.login_status = "Not logged in"
 
 $scope.anyFunction = function () {
   AuthService.logout();
-  $location.path('/home')
+  $location.path('/')
   $route.reload();
   console.log("clicked reload")
 }

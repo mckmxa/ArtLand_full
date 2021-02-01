@@ -38,6 +38,33 @@
     grid-area: Logo;
     margin-top: 10px;
 }
+
+.logoutButton {
+    background-color: #373737;
+    border: none;
+    color: #C90E0E;
+    display: inline-block;
+    font-size: 17px;
+  }
+  .buyButton {
+	background-color:#373737;;
+	border-radius:28px;
+	border:1px solid #373737;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:8px 21px;
+}
+.buyButton:hover {
+	background-color:#6e1217;
+}
+.buyButton:active {
+	position:relative;
+	top:1px;
+}
+
 .Search {
     
     grid-area: Search;
@@ -54,6 +81,7 @@
     padding: 20px;
     color: var(--main-color-white);
 }
+
 .Menu {
     grid-area: Menu;
 }

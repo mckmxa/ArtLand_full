@@ -17,6 +17,7 @@ and open the template in the editor.
         <div class="grid-container" >
             <div class="Header">
                 <div class="Logo">
+                    
                     <div> <a href="#!/"> <img src="views/images/logo.png" alt="ArtLand"></a> </div>
                 </div>
                 <div class="Search">
@@ -31,15 +32,14 @@ and open the template in the editor.
                         <div>Koszyk</div>
                     </div>
                     <div class="Lpanel">
-                        <div id="loginBtn">Login</div>
-                        <div>Rejestracja</div>
-                        <div> <a href="#!/login" style="color:white"> Login</a> </div>
-                        <div> <a href="#!/register" style="color:white"> Register</a> </div>
-                        <div ng-controller="logoutCtrl"> {{login_status}}  </div>
-                        <div ng-controller="logoutCtrl"> <button id="logoutAnyFunction" type="submit" ng-click="anyFunction()" ng-disabled="!isLogged()" >Log Out</button> </div>
+                        <div id="loginBtn">Modal</div>
+                        <div> <a href="#!/login" style="color:#C90E0E"> <i class="fa fa-sign-in fa-2x" ></i></a> </div>
+                        <div> <a href="#!/register" style="color:#C90E0E" > <i class="fa fa-user-plus fa-2x" ></i></a> </div>
+                        <div ng-controller="logoutCtrl"> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" > <i class="fa fa-sign-out fa-2x"></i> </button> </div>
+                        <div ng-controller="logoutCtrl"> {{login_status}} </div>
                     </div>
                 </div>
-                
+               
             </div>
             <div id="loginModal" class="modal">
 
@@ -62,7 +62,7 @@ and open the template in the editor.
                     <div class="iName">{{x.name}}</div>
                     <div class="iPrice">{{x.price}} zł</div>
                     <div class="iBuy">
-                        <button>Kup</button>
+                        <button class="buyButton">Add to cart</button>
                     </div>
                 </div>
             </div>
