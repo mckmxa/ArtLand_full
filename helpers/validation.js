@@ -67,12 +67,12 @@ module.exports = {
                 
                 next()
             } else {
-                res.status(401).json({success : false, error : "Username/Email or password incorrect"})
+                res.status(401).json({success : false, error : "Username or password incorrect"})
             }
             
         } else {
             //res.status(401).send("Username/Email or password incorrect")
-            res.status(401).json({success : false, error : "Username/Email or password incorrect"})
+            res.status(401).json({success : false, error : "Username or password incorrect"})
         }
     })
     }

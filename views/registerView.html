@@ -1,35 +1,26 @@
-<div class="col-md-12">
-    <p><strong>Register Page</strong></p>
-    
-    <form ng-submit="registerForm()" class="form">
-    <div class="col-md-4">
-    <div class="form-group">
-    <input type="text" class="form-control" ng-model="newuser.fname" placeholder="first name" required=""/>
-    </div>
-    
-    <div class="form-group">
-        <input type="text" class="form-control" ng-model="newuser.lname" placeholder="last name" required=""/>
-    </div>
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>Register</title>
+	    <link rel="stylesheet" type="text/css" href="views/css/loginStyle.css">
+    </head>
+    <body>
 
-    <div class="form-group">
-        <input type="text" class="form-control" ng-model="newuser.email" placeholder="email" required=""/>
-    </div>
-
-    <div class="form-group">
-        <input type="text" class="form-control" ng-model="newuser.username" placeholder="username" required=""/>
-    </div>
-
-
-    <div class="form-group">
-    <input type="password" class="form-control" ng-model="newuser.password" placeholder="password" required=""/>
-    </div>
-    
-    <div class="form-group">
-    <button type="submit" class="btn btn-success">Register</button>
-    <span class="text-danger" style="color:red">{{ error }}</span>
-    </div>
-    
-    
-    </div>
-    </form>
-    </div>
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <div class="logo"></div>
+        <div class="login-block">
+            <h1>Register</h1>
+            <form ng-submit="registerForm()">
+                <input type="text" value="" placeholder="First Name" id="fname" ng-model="newuser.fname" required=""/>
+                <input type="text" value="" placeholder="Last Name" id="lname" ng-model="newuser.lname" required=""/>
+                <input type="text" value="" placeholder="Email" id="email" ng-model="newuser.email" required=""/>
+                <input type="text" value="" placeholder="Username" id="username" ng-model="newuser.username" required=""/>
+                <input type="password" value="" placeholder="Password" id="password" ng-model="newuser.password" required=""/>
+                <span class="text-danger" style="color:red">{{ error }}</span>
+                <button type="submit" >Register</button>
+                <p class="message">Already have an account? <a href="#!/login">Log in</a></p>
+                <a href="#!/"> <button> Cancel </button> </a>
+         </form>
+        </div>
+    </body>
+</html>

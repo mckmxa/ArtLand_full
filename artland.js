@@ -2,11 +2,7 @@
 	app.config(function($routeProvider) {
         $routeProvider
         .when("/", {
-	        templateUrl : 'views/home.html',
-			controller : 'homeCtrl'
-		})
-		.when("/home", {
-			templateUrl : 'views/homeView.html',
+	        templateUrl : 'views/homeView.html',
 			controller : 'homeCtrl'
 		})
 		.when("/login", {
@@ -22,7 +18,7 @@
 			controller : 'productCtrl'
 		})
 		.otherwise({
-			redirectTo: '/home'
+			redirectTo: '/'
 		})
 	})
 	app.controller('homeCtrl', function($scope) {
