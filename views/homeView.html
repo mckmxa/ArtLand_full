@@ -32,29 +32,49 @@ and open the template in the editor.
                         <div>Koszyk</div>
                     </div>
                     <div class="Lpanel">
-                        <div id="loginBtn">Modal</div>
-                        <div> <a href="#!/login" style="color:#C90E0E"> <i class="fa fa-sign-in fa-2x" ></i></a> </div>
-                        <div> <a href="#!/register" style="color:#C90E0E" > <i class="fa fa-user-plus fa-2x" ></i></a> </div>
-                        <div ng-controller="logoutCtrl"> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" > <i class="fa fa-sign-out fa-2x"></i> </button> </div>
+                        
+                        <div ng-controller="logoutCtrl" ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
+                        <div ng-controller="logoutCtrl" ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
+                        <div ng-controller="logoutCtrl"> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
                         <div ng-controller="logoutCtrl"> {{login_status}} </div>
                     </div>
                 </div>
                
             </div>
-            <div id="loginModal" class="modal">
+            <div id="loginModal" class="modal" ng-controller="homeCtrl">
 
                 <!-- Modal content -->
-                <div class="modal-content">
+                <div class="modal-content" style="text-align: center;">
                   <span class="close">&times;</span>
                   <form ng-submit="loginForm()" class="form">
-                    <input type="text" ng-model="user.username" placeholder="username" required=""/>
-	                <input type="password" ng-model="user.password" placeholder="password" required=""/>
-                    <button type="submit" class="btn btn-success">Login</button>
-                    <span class="text-danger" style="color:red">{{ error }}</span>
+                    <input type="text" ng-model="user.username" placeholder="Login" required="" clearable/>
+                    <input type="password" ng-model="user.password" placeholder="Hasło" required="" clearable/>
+                    <button type="submit" class="btn btn-success">Zaloguj</button><br />
+                    <span class="text-danger" style="color:red;">{{ error }}</span>
                   </form>
                 </div>
               
-             </div>
+            </div>
+
+
+            <div id="registerModal" class="modal" ng-controller="homeCtrl">
+
+                <!-- Modal content -->
+                <div class="modal-content" style="text-align: center;">
+                  <span class="close">&times;</span>
+                  <form ng-submit="registerForm()" class="form">
+                    <input type="text"  placeholder="First Name" id="fname" ng-model="newuser.fname" required=""/>
+                    <input type="text"  placeholder="Last Name" id="lname" ng-model="newuser.lname" required=""/>
+                    <input type="text"  placeholder="Email" id="email" ng-model="newuser.email" required=""/>
+                    <input type="text"  placeholder="Username" id="username" ng-model="newuser.username" required=""/>
+                    <input type="password"  placeholder="Password" id="password" ng-model="newuser.password" required=""/>
+                    <button type="submit" class="btn btn-success">Zarejestuj sie</button><br />
+                    <span class="text-danger" style="color:red;">{{ error }}</span>
+                  </form>
+                </div>
+              
+            </div>
+
             <div class="Container">
                 <!-- wczytywanie  produktów ngrepeatem -->
                 <div ng-app="artland" ng controller="productsCtrl" class="item" ng-repeat="x in products">
@@ -70,27 +90,38 @@ and open the template in the editor.
           </div>
           <script>
             var modal = document.getElementById("loginModal");
+            var modal2 = document.getElementById("registerModal");
 
             // Get the button that opens the modal
             var btn = document.getElementById("loginBtn");
+            var btn2 = document.getElementById("registerBtn");
 
             // Get the <span> element that closes the modal
             var span = document.getElementsByClassName("close")[0];
+            var span2 = document.getElementsByClassName("close")[1];
 
             // When the user clicks on the button, open the modal
             btn.onclick = function() {
             modal.style.display = "block";
             }
 
+            btn2.onclick = function() {
+                modal2.style.display = "block";
+            }
+
             // When the user clicks on <span> (x), close the modal
             span.onclick = function() {
-            modal.style.display = "none";
+                modal.style.display = "none";
+            }
+            span2.onclick = function() {
+                modal2.style.display = "none";
             }
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
-            if (event.target == modal) {
+            if (event.target == modal || event.target == modal2) {
                 modal.style.display = "none";
+                modal2.style.display = "none";
             }
             }
             </script>

@@ -28,13 +28,13 @@ router.post('/register', [
         .isLength({min: 6}).withMessage("Password must be 6 characters long"),
     body('email').custom((value, {req}) => {
         return new Promise((resolve, reject) => {
-         db.database.query(`SELECT username FROM users WHERE email = ?`, req.body.email,(err,res)=> 
+         db.database.query(`SELECT username FROM users WHERE email =  '${req.body.email}' OR username = '${req.body.username}'`, (err,res)=> 
       {
         if(err) {
           reject(new Error('Server Error'))
         }
         if(res.length > 0) {
-          reject(new Error('E-mail already in use'))
+          reject(new Error('E-mail/Username already in use'))
         }
         resolve(true)
         })
@@ -48,7 +48,7 @@ router.post('/register', [
     } else {
 
         let email = req.body.email;
-        let username = email.split("@")[0];
+        let username = req.body.username;
         let password = await bcrypt.hash(req.body.password, 10);
         let fname = req.body.fname;
         let lname = req.body.lname;

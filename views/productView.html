@@ -1,12 +1,133 @@
-<div ng-repeat="x in products">
-    <a href="#!/"> <button> Back home </button> </a>
-    <h1>Nazwa : {{x.name}}</h1>
-    <h1>Cena : {{x.price}} zł</h1>
-    <h1>Kategoria : {{x.category}}</h1>
-    <h1>Opis : {{x.description}}</h1>
-    <h1>Krotki opis : {{x.short_desc}}</h1>
-    <img ng-src="{{x.image}}">
-    
-</div>
 
-{{productID}} is the clicked product's id
+
+
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="artland">
+    <head>
+        <title>Sklep</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="views/css/reset.css" rel="stylesheet" type="text/css"/>
+        <link href="views/css/main.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div class="grid-container">
+            <div class="Header">
+                <div class="Logo">
+                    <a href="#!/"><img src="views/images/logo.png" alt="ArtLand"></a>
+                </div>
+                <div class="Search">
+                    <input type="text" id="searchBar" placeholder="Wyszukaj..." />
+                    <button>Wyszukaj</button>
+                </div>
+                
+                <div class="Menu">
+                    <div class="Upanel">
+                        <div>Panel użytkownika</div>
+                        <div>Zamówienia</div>
+                        <div>Koszyk</div>
+                    </div>
+                    <div class="Lpanel">
+                        
+                        <div ng-controller="logoutCtrl" ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
+                        <div ng-controller="logoutCtrl" ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
+                        <div ng-controller="logoutCtrl"> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
+                        <div ng-controller="logoutCtrl"> {{login_status}} </div>
+                    </div>
+                </div>
+
+                <div id="loginModal" class="modal" ng-controller="homeCtrl">
+
+                    <!-- Modal content -->
+                    <div class="modal-content" style="text-align: center;">
+                      <span class="close">&times;</span>
+                      <form ng-submit="loginForm()" class="form">
+                        <input type="text" ng-model="user.username" placeholder="Login" required=""/>
+                        <input type="password" ng-model="user.password" placeholder="Hasło" required=""/>
+                        <button type="submit" class="btn btn-success">Zaloguj</button><br />
+                        <span class="text-danger" style="color:red;">{{ error }}</span>
+                      </form>
+                    </div>
+                  
+                </div>
+                
+
+
+                <div id="registerModal" class="modal" ng-controller="homeCtrl">
+
+                    <!-- Modal content -->
+                    <div class="modal-content" style="text-align: center;">
+                      <span class="close">&times;</span>
+                      <form ng-submit="registerForm()" class="form">
+                        <input type="text" value="" placeholder="First Name" id="fname" ng-model="newuser.fname" required=""/>
+                        <input type="text" value="" placeholder="Last Name" id="lname" ng-model="newuser.lname" required=""/>
+                        <input type="text" value="" placeholder="Email" id="email" ng-model="newuser.email" required=""/>
+                        <input type="text" value="" placeholder="Username" id="username" ng-model="newuser.username" required=""/>
+                        <input type="password" value="" placeholder="Password" id="password" ng-model="newuser.password" required=""/>
+                        <button type="submit" class="btn btn-success">Zarejestuj sie</button><br />
+                        <span class="text-danger" style="color:red;">{{ error }}</span>
+                      </form>
+                    </div>
+                  
+                </div>
+
+                
+            </div>
+            <div class="Container">
+                <!-- wczytywanie  produktów ngrepeatem -->
+                <div class="product" ng-repeat="x in products">
+                    <div class="product-img"><img ng-src="{{x.image}}"></div>
+                    <div class="product-dsc"><span style="font-weight: bold; padding: 10px; font-size: 18px;"> {{x.name}} </span> <br/> {{x.description}} </div>
+                    <div class="product-buy">{{ x.cena }} &nbsp <button>Kup</button></div>
+                </div>
+            </div>
+            
+          </div>
+          
+          <script>
+            var modal = document.getElementById("loginModal");
+            var modal2 = document.getElementById("registerModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("loginBtn");
+            var btn2 = document.getElementById("registerBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            var span2 = document.getElementsByClassName("close")[1];
+
+            // When the user clicks on the button, open the modal
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
+
+            btn2.onclick = function() {
+                modal2.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            span2.onclick = function() {
+                modal2.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+            if (event.target == modal || event.target == modal2) {
+                modal.style.display = "none";
+                modal2.style.display = "none";
+            }
+            }
+            </script>
+
+    </body>
+</html>

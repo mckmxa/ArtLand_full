@@ -48,12 +48,14 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
               .then(function(response) {
                console.log("registered successfully")
                console.log(response);
-               $location.path('/login')
+               
+               $location.path('/')
               },function errorCallback(response) {
                 $scope.invalidPassword = "Hasło musi mieć co najmniej 6 znaków!"
-                $scope.invalidEmail = "Niepoprawny format e-maila!"
+                $scope.invalidEmail = "Dany email/nazwa użytkownika już istnieje lub email jest niepoprawny!"
                 console.log(response)
                 console.log(response.data.errors[0].param)
+                
 
                 let errors = [];
                 errors = response.data.errors
@@ -62,7 +64,7 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
                 for (var i = 0; i < errors.length; i++) {
                   if(errors[i].param == "email")
                   {
-                    $scope.error = "Invalid email format";
+                    $scope.error = "Dany email/nazwa użytkownika już istnieje lub email jest niepoprawny!"
 
                   }
                   if(errors[i].param == "password")
@@ -96,7 +98,7 @@ function logoutCtrl($rootScope, $scope, AuthService, $location, $route) {
   if(user.username)
   $rootScope.login_status = $rootScope.login_status + user.username + "!"
   else
-  $rootScope.login_status = "Not logged in"
+  $rootScope.login_status = ""
 
 $scope.anyFunction = function () {
   AuthService.logout();
@@ -115,7 +117,6 @@ function productCtrl($http,$routeParams,$scope) {
   $http({
     method  : 'GET',
     url     : 'http://localhost:3000/api/products' + '/' + $routeParams.id,
-    //data    : $scope.products
  })
  .then(function(response) {
      $scope.products = response.data.product;
@@ -123,7 +124,7 @@ function productCtrl($http,$routeParams,$scope) {
    ,function errorCallback(response) {
       console.log(response)
     });
-  console.log("REACHED HERE");
+
   $scope.productID= $routeParams.id;
   console.log($scope.productID);
 }
