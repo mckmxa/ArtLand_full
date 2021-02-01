@@ -16,6 +16,14 @@
 			
 			templateUrl : 'views/productView.html',
 			controller : 'productCtrl'
+		}).when("/cart", {
+			
+			templateUrl : 'views/cartView.html',
+			controller : 'cartCtrl'
+		}).when("/users", {
+			
+			templateUrl : 'views/usersView.html',
+			controller : 'usersCtrl'
 		})
 		.otherwise({
 			redirectTo: '/'
@@ -25,6 +33,7 @@
 		console.log("homectrl start")
 		var ctrl = this;
 	})
+
 
 
 /*

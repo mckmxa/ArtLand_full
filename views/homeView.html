@@ -77,15 +77,25 @@ and open the template in the editor.
 
             <div class="Container">
                 <!-- wczytywanie  produktów ngrepeatem -->
-                <div ng-app="artland" ng controller="productsCtrl" class="item" ng-repeat="x in products">
-                    <div class="image">  <a href="#!/product/{{ x.id }}" ><img ng-src="{{x.image}}"></a> </div>
-                    <div class="iName">{{x.name}}</div>
-                    <div class="iPrice">{{x.price}} zł</div>
+                <div ng-app="artland" ng controller="productsCtrl" class="item" ng-repeat="product in products">
+                    <div class="image">  <a href="#!/product/{{ product.id }}" ><img ng-src="{{product.image}}"></a> </div>
+                    <div class="iName">{{product.name}}</div>
+                    <div class="iPrice">{{product.price}} zł</div>
                     <div class="iBuy">
-                        <button class="buyButton">Add to cart</button>
+                        <button ng-controller="cartCtrl" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <button ng-controller="cartCtrl" class="buyButton" ng-click = "addItem(product)">Addtest</button>
+                        
                     </div>
                 </div>
             </div>
+
+
+           
+                
+                  
+        
+            
+              
             
           </div>
           <script>

@@ -82,10 +82,10 @@ and open the template in the editor.
             </div>
             <div class="Container">
                 <!-- wczytywanie  produktów ngrepeatem -->
-                <div class="product" ng-repeat="x in products">
-                    <div class="product-img"><img ng-src="{{x.image}}"></div>
-                    <div class="product-dsc"><span style="font-weight: bold; padding: 10px; font-size: 18px;"> {{x.name}} </span> <br/> {{x.description}} </div>
-                    <div class="product-buy">{{ x.cena }} &nbsp <button>Kup</button></div>
+                <div class="product" ng-repeat="product in products">
+                    <div class="product-img"><img ng-src="{{product.image}}"></div>
+                    <div class="product-dsc"><span style="font-weight: bold; padding: 10px; font-size: 18px;"> {{product.name}} </span> <br/> {{product.description}} </div>
+                    <div class="product-buy">{{ product.cena }} &nbsp <button>Kup</button></div>
                 </div>
             </div>
             

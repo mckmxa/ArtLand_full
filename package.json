@@ -11,8 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.8.2",
+    "angular-animate": "^1.8.2",
     "angular-cookies": "^1.8.2",
     "angular-route": "^1.8.2",
+    "angular-sanitize": "^1.8.2",
     "bcrypt": "^5.0.0",
     "bootstrap": "^4.6.0",
     "cookie-parser": "^1.4.5",

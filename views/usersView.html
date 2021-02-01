@@ -1,0 +1,8 @@
+
+
+
+<h1 ng-controller="usersCtrl" ng-repeat="u in users">ID: {{u.id}} First Name: {{u.fname}} Last Name: {{u.lname}} Username: {{u.username}}
+    <button ng-controller="deleteCtrl" ng-click="deleteUser(u, $index)">DELETE</button>
+</h1>
+
+

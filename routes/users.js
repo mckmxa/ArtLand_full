@@ -28,6 +28,26 @@ router.get('/:userId', (req, res) => {
     });
 });
 
+/* DELETE ONE USER WITH MATHCING ID */
+router.delete('/:userId', (req, res) => {
+    let userId = req.params.userId;
+    db.database.query(`SELECT username, email, fname, lname, age, role, id FROM users WHERE id = ${userId}` , (error, results) => {
+        if (error) throw error
+        if (results.length>0) {
+            res.json({message: `FOUND USER WITH ID : ${userId}`});
+            db.database.query(`DELETE FROM users WHERE id = ${userId}` , (error, results) => {
+                if (error) throw error
+                console.log("deleted successfully")
+                
+            });
+        } else {
+            res.json({message: `NO USER FOUND WITH ID : ${userId}`});
+        }
+    });
+
+    
+});
+
 /* UPDATE USER DATA */
 router.patch('/:userId', async (req, res) => {
     let userId = req.params.userId;     // Get user ID from the parameter
