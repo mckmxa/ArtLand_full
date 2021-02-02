@@ -1,3 +1,4 @@
+
 angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtrl', logoutCtrl).controller('productCtrl', productCtrl).controller('alertCtrl', alertCtrl)
 .controller('cartCtrl', cartCtrl).controller('usersCtrl',usersCtrl).controller('deleteCtrl', deleteCtrl)
   
@@ -9,6 +10,7 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
     function homeCtrl($scope, $http, $location, Session) {
       $scope.user={}
       $scope.newuser={}
+
   
       $scope.loginForm = function() {
         //var pass=$scope.user.password;
@@ -24,9 +26,9 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
             Session.put('token', results.data.token)
             Session.put('username', results.data.username)
             Session.put('role', results.data.role)
-            console.log(results.data.role)
+            Session.put('id' , results.data.id)
   
-            console.log("logged in successfully")
+            console.log("logged in successfully, your id : " + results.data.id)
             
             $location.path('/home')
           },function errorCallback(response) {
@@ -53,8 +55,8 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
                
                $location.path('/')
               },function errorCallback(response) {
-                $scope.invalidPassword = "Hasło musi mieć co najmniej 6 znaków!"
-                $scope.invalidEmail = "Dany email/nazwa użytkownika już istnieje lub email jest niepoprawny!"
+                //$scope.invalidPassword = "Hasło musi mieć co najmniej 6 znaków!"
+                //$scope.invalidEmail = "Dany email/nazwa użytkownika już istnieje lub email jest niepoprawny!"
                 console.log(response)
                 console.log(response.data.errors[0].param)
                 
@@ -119,7 +121,10 @@ $scope.isLogged = function () {
 
 }
 
-function productCtrl($http,$routeParams,$scope) {
+function productCtrl($http,$routeParams,$scope,AuthService) {
+  console.log("is logged in? : " + AuthService.isLoggedIn())
+  console.log("is admin? : " + AuthService.isAdmin())
+
   $http({
     method  : 'GET',
     url     : 'http://localhost:3000/api/products' + '/' + $routeParams.id,

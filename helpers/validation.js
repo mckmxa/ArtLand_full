@@ -64,6 +64,7 @@ module.exports = {
                 req.username = user[0].username
                 req.email = user[0].mail
                 req.role = user[0].role
+                req.id = user[0].id
                 
                 next()
             } else {

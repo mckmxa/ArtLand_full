@@ -15,7 +15,7 @@ router.post('/login', [valid.hasAuthFields, valid.doesPasswordAndUserMatch], (re
         algorithm: 'HS512',
         expiresIn: '4h'
     });
-    res.json({token: token, auth: true, username: req.body.username, role: req.role});
+    res.json({token: token, auth: true, username: req.body.username, role: req.role, id: req.id});
     console.log("Login successful")
 });
 
@@ -63,7 +63,29 @@ router.post('/register', [
             }
         })     
     }
-});
+})
+
+router.post('/checkrole/:userId', (req, res) => {
+    let userId = req.params.userId
+    const roleQuery = `SELECT role FROM users WHERE id = ${userId}`
+    db.database.query(roleQuery, (error, results) => {
+        if (error) throw error
+        let jsonResult = {
+            'role' : results[0].role
+        }
+
+        //console.log(results.length)
+        //console.log(results[0].role)
+        
+        if (results.length > 0) {
+            
+            res.json(jsonResult)
+            
+        } else {
+            res.json({message: `No user found with id ${userId}`, param: 'id'});
+        }
+    })
+})
 
 
 module.exports = router;

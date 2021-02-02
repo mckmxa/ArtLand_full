@@ -31,12 +31,12 @@ and open the template in the editor.
                         <div>Zamówienia</div>
                         <div>Koszyk</div>
                     </div>
-                    <div class="Lpanel">
-                        
-                        <div ng-controller="logoutCtrl" ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
-                        <div ng-controller="logoutCtrl" ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
-                        <div ng-controller="logoutCtrl"> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
-                        <div ng-controller="logoutCtrl"> {{login_status}} </div>
+                    <div ng-controller="logoutCtrl" class="Lpanel">
+                        <div> <a href="#!/users"> admin panel</a> </div>
+                        <div ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
+                        <div ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
+                        <div> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
+                        <div> {{login_status}} </div>
                     </div>
                 </div>
                
