@@ -65,21 +65,23 @@ router.post('/register', [
     }
 })
 
-router.post('/checkrole/:userId', (req, res) => {
+router.post('/checkadmin/:userId', (req, res) => {
     let userId = req.params.userId
     const roleQuery = `SELECT role FROM users WHERE id = ${userId}`
     db.database.query(roleQuery, (error, results) => {
         if (error) throw error
-        let jsonResult = {
-            'role' : results[0].role
-        }
-
+        
+        
         //console.log(results.length)
         //console.log(results[0].role)
         
         if (results.length > 0) {
             
-            res.json(jsonResult)
+            if(results[0].role == "ROLE_ADMIN"){
+                res.json(true)
+            } else {
+                res.json(false)
+            }
             
         } else {
             res.json({message: `No user found with id ${userId}`, param: 'id'});

@@ -29,33 +29,23 @@ angular.module('artland').factory('AuthService', AuthService);
     }
 
     // isAdmin problem z returnem
+
+
+
     
     function isAdmin(){
-      
-      
-      console.log("123" + admin)
-      
+
       if(getToken()){
 
       $http({
         method  : 'POST',
-        url     : 'http://localhost:3000/api/auth/checkrole' + '/' + Session.get('id'),
+        url     : 'http://localhost:3000/api/auth/checkadmin' + '/' + Session.get('id'),
      }).then(function(results) {
-      console.log("reached here - http")
-
-       if(results.data.role == "ROLE_ADMIN"){
-
-         console.log("reached here - rola to admin")
-         admin = true
-         
-       }else {
-        console.log("reached here - rola to nieadmin")
-       }
-
+      console.log("reached here - http : " + results.data)
+      admin = results.data
       })
     }
     return admin
-    
   }
   
 
