@@ -7,7 +7,7 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
     logoutCtrl.$inject = ['$rootScope', '$scope', 'AuthService' ,'$location', '$route'];
     cartCtrl.$inject = ['$http','$scope','$cookies'];
   
-    function homeCtrl($scope, $http, $location, Session, AuthService) {
+    function homeCtrl($scope, $http, $location, Session) {
       $scope.user={}
       $scope.newuser={}
 
@@ -121,6 +121,21 @@ $scope.anyFunction = function () {
 $scope.isLogged = function () {
   return AuthService.isLoggedIn();
 }
+
+  if(AuthService.getToken()){
+    AuthService.isAdmin().then(function (response) {
+      $scope.admin = response.data
+    }) 
+  } else{
+    $scope.admin = false;
+  }
+
+  $scope.isAdministrator = function () {
+    return $scope.admin;
+  }
+
+
+
 
 }
 

@@ -32,7 +32,7 @@ and open the template in the editor.
                         <div>Koszyk</div>
                     </div>
                     <div ng-controller="logoutCtrl" class="Lpanel">
-                        <div ng-show="isLogged()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
+                        <div ng-show="isAdministrator()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
                         <div ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
                         <div ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
                         <div> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>

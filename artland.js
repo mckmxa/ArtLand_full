@@ -1,9 +1,9 @@
 
 	var app = angular.module('artland', ['ngRoute','ngCookies']);
-
-	/* logged  user only restriction */
-	/* admin only restriction - isAdmin still not fixed */
+	
+	
 	app.config(['$routeProvider', '$locationProvider', function($routeProvider,$locationProvider) {
+		/* logged  user only restriction */
 		var onlyLoggedIn = function($location, $q, AuthService) {
 			var deferred = $q.defer();
 			if (AuthService.isLoggedIn()) {
@@ -12,7 +12,29 @@
 				deferred.reject();
 				$location.url('/');
 			}
+
 			return deferred.promise;
+
+			
+		};
+		/* admin only restriction */
+		var onlyAdm = function($location, $q, AuthService) {
+			var deferred = $q.defer();
+			if(AuthService.getToken()){
+				AuthService.isAdmin().then(function (response) {
+					if (response.data) {
+						deferred.resolve();
+					} else{
+						deferred.reject();
+						$location.url('/');
+					}
+				}) 
+			  } else {
+				deferred.reject();
+				$location.url('/');
+			  }
+
+			  return deferred.promise;
 		};
 
 
@@ -48,7 +70,7 @@
 			
 			templateUrl : 'views/usersView.html',
 			controller : 'usersCtrl',
-			resolve:{loggedIn:onlyLoggedIn}
+			resolve:{admin:onlyAdm}
 			
 			
 		})

@@ -38,6 +38,7 @@ angular.module('artland').factory('AuthService', AuthService);
         method  : 'POST',
         url     : 'http://localhost:3000/api/auth/checkadmin' + '/' + Session.get('id'),
      })
+     
     }
     return http
   }
