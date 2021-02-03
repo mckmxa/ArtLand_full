@@ -59,12 +59,12 @@
 		}).when("/product/:id", {
 			
 			templateUrl : 'views/productView.html',
-			controller : 'productCtrl',
+			controller : 'homeCtrl',
 			
 		}).when("/cart", {
 			
 			templateUrl : 'views/cartView.html',
-			controller : 'cartCtrl',
+			controller : 'homeCtrl',
 			
 		}).when("/users", {
 			

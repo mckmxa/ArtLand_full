@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html ng-app="artland">
     <head>
         <title>Sklep</title>
         <meta charset="UTF-8">
@@ -30,18 +30,18 @@ and open the template in the editor.
                         <div>Zamówienia</div>
                         <div>Koszyk</div>
                     </div>
-                    <div ng-controller="logoutCtrl" class="Lpanel">
-                        <div><a href="#!/cart" > <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
-                        <div ng-show="isAdministrator()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
+                    <div class="Lpanel">
+                        <div ng-show="isAdministrator()"><a href="#!/users"> <i class="fa fa-user fa-fw"></i> Admin </a></div>
+                        <div ng-show="isLogged()"><a href="#!/cart"> <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
                         <div ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
                         <div ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
-                        <div> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
+                        <div> <button class="logoutButton" type="submit" ng-click="logout()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
                         <div> {{login_status}} </div>
                     </div>
                 </div>
                
             </div>
-            <div id="loginModal" class="modal" ng-controller="homeCtrl">
+            <div id="loginModal" class="modal" >
 
                 <!-- Modal content -->
                 <div class="modal-content" style="text-align: center;">
@@ -57,7 +57,7 @@ and open the template in the editor.
             </div>
 
 
-            <div id="registerModal" class="modal" ng-controller="homeCtrl">
+            <div id="registerModal" class="modal">
 
                 <!-- Modal content -->
                 <div class="modal-content" style="text-align: center;">
@@ -82,7 +82,7 @@ and open the template in the editor.
                     <div class="iName">{{product.name}}</div>
                     <div class="iPrice">{{product.price}} zł</div>
                     <div class="iBuy">
-                        <button ng-controller="cartCtrl" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <button ng-hide="!isLogged()" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
                     </div>
                     
                 </div>

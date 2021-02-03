@@ -1,12 +1,30 @@
-<div ng-controller="cartCtrl">
-  <h1>CART</h1>
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="c in cart">
-      <h4>{{c.name}} |                <span style="color:blue"> {{c.count}} </span>
-        | {{c.price*c.count}} zł</h4>
-      <input class="btn btn-danger" type="button" ng-click="removeItemCart(c)" value="Remove" />
-    </li>
-  </ul>
+<!DOCTYPE html>
+<html ng-app="artland">
 
-  Total : {{total}} zł
-</div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Koszyk</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div>
+        
+        
+        <div >
+          <h1>CART</h1>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="c in cart">
+              <h4>{{c.name}} |                <span style="color:blue"> {{c.count}} </span>
+                | {{c.price*c.count}} zł</h4>
+              <input class="btn btn-danger" type="button" ng-click="removeItemCart(c)" value="Remove" />
+            </li>
+          </ul>
+
+          Total : {{total}} zł
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

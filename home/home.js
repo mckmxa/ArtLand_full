@@ -1,24 +1,29 @@
 
-angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtrl', logoutCtrl).controller('productCtrl', productCtrl).controller('alertCtrl', alertCtrl)
-.controller('cartCtrl', cartCtrl).controller('usersCtrl',usersCtrl)
+angular.module('artland').controller('homeCtrl', homeCtrl)/*.controller('logoutCtrl', logoutCtrl)*/.controller('productCtrl', productCtrl)/*.controller('cartCtrl', cartCtrl)*/
+.controller('usersCtrl',usersCtrl)
   
   
-    homeCtrl.$inject = ['$scope', '$http' ,'$location', 'Session' ,'AuthService'];
-    logoutCtrl.$inject = ['$rootScope', '$scope', 'AuthService' ,'$location', '$route'];
-    cartCtrl.$inject = ['$http','$scope','$cookies'];
+    homeCtrl.$inject = ['$rootScope', '$scope', '$http' ,'$location', 'Session' ,'AuthService','$route', '$cookies'];
+    //logoutCtrl.$inject = ['$rootScope', '$scope', 'AuthService' ,'$location', '$route'];
+    //cartCtrl.$inject = ['$http','$scope','$cookies'];
   
-    function homeCtrl($scope, $http, $location, Session) {
+    function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $route, $cookies) {
       $scope.user={}
       $scope.newuser={}
 
-      
-      
 
+      $scope.isLogged = function () {
+        return AuthService.isLoggedIn();
+      }
+      
+        
+      
+        $scope.isAdministrator = function () {
+          return $scope.admin;
+        }
   
       $scope.loginForm = function() {
-        //var pass=$scope.user.password;
-        //var enc_pass= window.btoa(pass);
-        //$scope.user.password=enc_pass;
+
         $http({
             method  : 'POST',
             url     : 'http://localhost:3000/api/auth/login',
@@ -32,8 +37,26 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
             Session.put('id' , results.data.id)
   
             console.log("logged in successfully, your id : " + results.data.id)
+
+
+            if(AuthService.getToken()){
+              AuthService.isAdmin().then(function (response) {
+                $scope.admin = response.data
+              }) 
+            } else{
+              $scope.admin = false;
+            }
+
+            var user = AuthService.getUser();
+
+            if(user.username)
+            $scope.login_status = "Hello " + user.username + "!"
+            else
+            $scope.login_status = ""
+
             
-            $location.path('/home')
+            
+            document.getElementById("loginModal").style.display = "none";
           },function errorCallback(response) {
             console.log(response)
             console.log("failed to login - succes status: " + response.data.success)
@@ -56,7 +79,7 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
                console.log("registered successfully")
                console.log(response);
                
-               $location.path('/')
+               document.getElementById("registerModal").style.display = "none";
               },function errorCallback(response) {
                 //$scope.invalidPassword = "Hasło musi mieć co najmniej 6 znaków!"
                 //$scope.invalidEmail = "Dany email/nazwa użytkownika już istnieje lub email jest niepoprawny!"
@@ -94,55 +117,115 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
                console.log(response)
              });
 
-}
 
-function logoutCtrl($rootScope, $scope, AuthService, $location, $route) {
-  console.log("logout ctrl startuje")
+
   console.log(AuthService.isLoggedIn())
   var user = AuthService.getUser();
 
-  $rootScope.login_status = "Hello ";
   if(user.username)
-  $rootScope.login_status = $rootScope.login_status + user.username + "!"
+  $scope.login_status = "Hello " + user.username + "!"
   else
-  $rootScope.login_status = ""
+  $scope.login_status = ""
 
+/*
 $scope.anyFunction = function () {
   AuthService.logout();
   $location.path('/')
   $route.reload();
   console.log("clicked reload")
 }
+*/
 
-$scope.isLogged = function () {
-  return AuthService.isLoggedIn();
+$scope.logout = function () { 
+  AuthService.logout();
+  console.log("logged out successfully")
+  $scope.admin = false;
+  $scope.login_status = ""
 }
 
-  if(AuthService.getToken()){
-    AuthService.isAdmin().then(function (response) {
-      $scope.admin = response.data
-    }) 
-  } else{
-    $scope.admin = false;
-  }
 
-  $scope.isAdministrator = function () {
-    return $scope.admin;
-  }
 
+
+  $scope.cart = [];
+  $scope.total = 0;
+
+  
+  if(!angular.isUndefined($cookies.get('total'))){
+    $scope.total = parseFloat($cookies.get('total'));
+  }
+  
+  if (!angular.isUndefined($cookies.get('cart'))) {
+       $scope.cart =  $cookies.getObject('cart');
+  }
+  
+  
+  $scope.addItemToCart = function(product){
+    console.log($scope.cart)
+    console.log("dodaje produkt o id " + product.id + " " + product.name)
+    console.log(product)
+    
+     if ($scope.cart.length === 0){
+       product.count = 1;
+       $scope.cart.push(product);
+     } else {
+       var repeat = false;
+       for(var i = 0; i< $scope.cart.length; i++){
+         if($scope.cart[i].id === product.id){
+           repeat = true;
+           $scope.cart[i].count +=1;
+         }
+       }
+       if (!repeat) {
+         product.count = 1;
+          $scope.cart.push(product);	
+       }
+     }
+     var expireDate = new Date();
+    expireDate.setDate(expireDate.getDate() + 1);
+     $cookies.putObject('cart', $scope.cart,  {'expires': expireDate});
+     $scope.cart = $cookies.getObject('cart');
+   
+    $scope.total += parseFloat(product.price);
+    $cookies.put('total', $scope.total,  {'expires': expireDate});
+   };
+  
+   $scope.removeItemCart = function(product){
+     
+     if(product.count > 1){
+       product.count -= 1;
+       var expireDate = new Date();
+       expireDate.setDate(expireDate.getDate() + 1);
+       $cookies.putObject('cart', $scope.cart, {'expires': expireDate});
+        $scope.cart = $cookies.getObject('cart');
+     }
+     else if(product.count === 1){
+       var index = $scope.cart.indexOf(product);
+      $scope.cart.splice(index, 1);
+      expireDate = new Date();
+     expireDate.setDate(expireDate.getDate() + 1);
+      $cookies.putObject('cart', $scope.cart, {'expires': expireDate});
+      $scope.cart = $cookies.getObject('cart');
+       
+     }
+     
+     $scope.total -= parseFloat(product.price);
+     $cookies.put('total', $scope.total,  {'expires': expireDate});
+     
+   };
 
 
 
 }
 
 function productCtrl($http,$routeParams,$scope,AuthService) {
-  console.log("is logged in? : " + AuthService.isLoggedIn())
+ /* console.log("is logged in? : " + AuthService.isLoggedIn())
   if(AuthService.getToken()){
   AuthService.isAdmin().then(function (response) {
     console.log("is admin? : " + response.data)
   }) 
-}
   
+}
+ */ 
 
   $http({
     method  : 'GET',
@@ -160,18 +243,6 @@ function productCtrl($http,$routeParams,$scope,AuthService) {
 
 
 }
-
-function alertCtrl($scope, $window)  {
-
-
-            $scope.angularAlert = "default alert"
-            $scope.clickMe = angularAlert => {    
-                $window.alert(angularAlert);   
-            };   
-        }    
-
-
-
 
 
 function usersCtrl ($http, $scope ,$timeout) {
@@ -211,88 +282,6 @@ $scope.deleteUser = function(data, index) {
 }
 
 
-
-function cartCtrl($http, $scope,$cookies) {
-  $http({
-    method  : 'GET',
-    url     : 'http://localhost:3000/api/products',
- }).then(function (response) {
-    $scope.products = response.data.products;
- },function errorCallback(response) {
-  console.log(response)
-});
-
-$scope.cart = [];
-$scope.total = 0;
-/*
-if ($cookieStore.get('cart') !== null) {
-     $scope.cart =  $cookieStore.get('cart');
-}
-*/
-
-if(!angular.isUndefined($cookies.get('total'))){
-  $scope.total = parseFloat($cookies.get('total'));
-}
-
-if (!angular.isUndefined($cookies.get('cart'))) {
-     $scope.cart =  $cookies.getObject('cart');
-}
-
-
-$scope.addItemToCart = function(product){
-  console.log($scope.cart)
-  console.log("dodaje produkt o id " + product.id + " " + product.name)
-  console.log(product)
-  
-   if ($scope.cart.length === 0){
-     product.count = 1;
-     $scope.cart.push(product);
-   } else {
-     var repeat = false;
-     for(var i = 0; i< $scope.cart.length; i++){
-       if($scope.cart[i].id === product.id){
-         repeat = true;
-         $scope.cart[i].count +=1;
-       }
-     }
-     if (!repeat) {
-       product.count = 1;
-        $scope.cart.push(product);	
-     }
-   }
-   var expireDate = new Date();
-  expireDate.setDate(expireDate.getDate() + 1);
-   $cookies.putObject('cart', $scope.cart,  {'expires': expireDate});
-   $scope.cart = $cookies.getObject('cart');
- 
-  $scope.total += parseFloat(product.price);
-  $cookies.put('total', $scope.total,  {'expires': expireDate});
- };
-
- $scope.removeItemCart = function(product){
-   
-   if(product.count > 1){
-     product.count -= 1;
-     var expireDate = new Date();
-     expireDate.setDate(expireDate.getDate() + 1);
-     $cookies.putObject('cart', $scope.cart, {'expires': expireDate});
-      $scope.cart = $cookies.getObject('cart');
-   }
-   else if(product.count === 1){
-     var index = $scope.cart.indexOf(product);
-    $scope.cart.splice(index, 1);
-    expireDate = new Date();
-   expireDate.setDate(expireDate.getDate() + 1);
-    $cookies.putObject('cart', $scope.cart, {'expires': expireDate});
-    $scope.cart = $cookies.getObject('cart');
-     
-   }
-   
-   $scope.total -= parseFloat(product.price);
-   $cookies.put('total', $scope.total,  {'expires': expireDate});
-   
- };
-}
 
 
 /*
