@@ -1,4 +1,4 @@
-var admin = false
+var admin
 angular.module('artland').factory('AuthService', AuthService);
 
     AuthService.$inject = ['$http', '$q', 'Session'];
@@ -28,28 +28,19 @@ angular.module('artland').factory('AuthService', AuthService);
       }
     }
 
-    // isAdmin problem z returnem
 
 
-
-    
     function isAdmin(){
 
       if(getToken()){
 
-      $http({
+      var http = $http({
         method  : 'POST',
         url     : 'http://localhost:3000/api/auth/checkadmin' + '/' + Session.get('id'),
-     }).then(function(results) {
-      console.log("reached here - http : " + results.data)
-      admin = results.data
-      })
+     })
     }
-    return admin
+    return http
   }
-  
-
-
   
      function logout(){
       

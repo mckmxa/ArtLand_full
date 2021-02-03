@@ -3,13 +3,16 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
 .controller('cartCtrl', cartCtrl).controller('usersCtrl',usersCtrl).controller('deleteCtrl', deleteCtrl)
   
   
-    homeCtrl.$inject = ['$scope', '$http' ,'$location', 'Session'];
+    homeCtrl.$inject = ['$scope', '$http' ,'$location', 'Session' ,'AuthService'];
     logoutCtrl.$inject = ['$rootScope', '$scope', 'AuthService' ,'$location', '$route'];
     cartCtrl.$inject = ['$http','$scope','$cookies'];
   
-    function homeCtrl($scope, $http, $location, Session) {
+    function homeCtrl($scope, $http, $location, Session, AuthService) {
       $scope.user={}
       $scope.newuser={}
+
+      
+      
 
   
       $scope.loginForm = function() {
@@ -123,7 +126,12 @@ $scope.isLogged = function () {
 
 function productCtrl($http,$routeParams,$scope,AuthService) {
   console.log("is logged in? : " + AuthService.isLoggedIn())
-  console.log("is admin? : " + AuthService.isAdmin())
+  if(AuthService.getToken()){
+  AuthService.isAdmin().then(function (response) {
+    console.log("is admin? : " + response.data)
+  }) 
+}
+  
 
   $http({
     method  : 'GET',

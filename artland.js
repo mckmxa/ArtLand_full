@@ -16,6 +16,8 @@
 		};
 
 
+
+
         $routeProvider
         .when("/", {
 	        templateUrl : 'views/homeView.html',
@@ -47,6 +49,7 @@
 			templateUrl : 'views/usersView.html',
 			controller : 'usersCtrl',
 			resolve:{loggedIn:onlyLoggedIn}
+			
 			
 		})
 		.otherwise({
