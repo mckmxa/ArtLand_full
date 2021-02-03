@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html ng-app="artland">
+<html>
     <head>
         <title>Sklep</title>
         <meta charset="UTF-8">
@@ -21,8 +21,7 @@ and open the template in the editor.
                     <div> <a href="#!/"> <img src="views/images/logo.png" alt="ArtLand"></a> </div>
                 </div>
                 <div class="Search">
-                    <input type="text" id="searchBar" placeholder="Wyszukaj..." />
-                    <button>Wyszukaj</button>
+                    <input type="text" id="searchBar" placeholder="Wyszukaj..." ng-model="searchText" />
                 </div>
                 
                 <div class="Menu">
@@ -32,6 +31,7 @@ and open the template in the editor.
                         <div>Koszyk</div>
                     </div>
                     <div ng-controller="logoutCtrl" class="Lpanel">
+                        <div><a href="#!/cart" > <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
                         <div ng-show="isAdministrator()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
                         <div ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
                         <div ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
@@ -77,26 +77,19 @@ and open the template in the editor.
 
             <div class="Container">
                 <!-- wczytywanie  produktów ngrepeatem -->
-                <div ng-app="artland" ng controller="productsCtrl" class="item" ng-repeat="product in products">
+                <div class="item" ng-repeat="product in products | filter:searchText">
                     <div class="image">  <a href="#!/product/{{ product.id }}" ><img ng-src="{{product.image}}"></a> </div>
                     <div class="iName">{{product.name}}</div>
                     <div class="iPrice">{{product.price}} zł</div>
                     <div class="iBuy">
                         <button ng-controller="cartCtrl" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
-                        <button ng-controller="cartCtrl" class="buyButton" ng-click = "addItem(product)">Addtest</button>
-                        
                     </div>
+                    
                 </div>
             </div>
 
+            
 
-           
-                
-                  
-        
-            
-              
-            
           </div>
           <script>
             var modal = document.getElementById("loginModal");

@@ -41,6 +41,7 @@ router.delete('/:userId', (req, res) => {
                 
             });
         } else {
+            res.status(400)
             res.json({message: `NO USER FOUND WITH ID : ${userId}`});
         }
     });

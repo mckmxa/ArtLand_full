@@ -43,7 +43,7 @@
         $routeProvider
         .when("/", {
 	        templateUrl : 'views/homeView.html',
-			controller : 'homeCtrl',
+			controller : 'homeCtrl'
 			
 
 		})
@@ -79,10 +79,3 @@
 		})
 		
 	}])
-
-	
-	
-	app.controller('homeCtrl', function($scope) {
-		console.log("homectrl start")
-		var ctrl = this;
-	})

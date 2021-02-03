@@ -1,6 +1,6 @@
 
 angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtrl', logoutCtrl).controller('productCtrl', productCtrl).controller('alertCtrl', alertCtrl)
-.controller('cartCtrl', cartCtrl).controller('usersCtrl',usersCtrl).controller('deleteCtrl', deleteCtrl)
+.controller('cartCtrl', cartCtrl).controller('usersCtrl',usersCtrl)
   
   
     homeCtrl.$inject = ['$scope', '$http' ,'$location', 'Session' ,'AuthService'];
@@ -94,10 +94,6 @@ angular.module('artland').controller('homeCtrl', homeCtrl).controller('logoutCtr
                console.log(response)
              });
 
-
-
-             
-
 }
 
 function logoutCtrl($rootScope, $scope, AuthService, $location, $route) {
@@ -175,6 +171,47 @@ function alertCtrl($scope, $window)  {
         }    
 
 
+
+
+
+function usersCtrl ($http, $scope ,$timeout) {
+  
+  $http({
+    method  : 'GET',
+    url     : 'http://localhost:3000/api/users',
+ }).then(function (response) {
+    $scope.users = response.data.users;
+ },function errorCallback(response) {
+  console.log(response)
+})
+$scope.deleteUser = function(data, index) {
+  console.log(index)
+  
+  $http({
+    method  : 'DELETE',
+    url     : 'http://localhost:3000/api/users' + '/' + data.id
+ }).then(function (response) {
+  var del_index = $scope.users.findIndex(function(d){return d.id == data.id});
+  console.log(del_index)
+  if(del_index>0){//if index of the id to be removed found
+      $scope.users.splice(del_index, 1)
+
+  }
+
+  
+  //$scope.users.splice(del_index, 1)
+  console.log("deleted " + data.id)
+ },function errorCallback(response) {
+  console.log(response)
+});
+
+ 
+}
+
+}
+
+
+
 function cartCtrl($http, $scope,$cookies) {
   $http({
     method  : 'GET',
@@ -184,6 +221,7 @@ function cartCtrl($http, $scope,$cookies) {
  },function errorCallback(response) {
   console.log(response)
 });
+
 $scope.cart = [];
 $scope.total = 0;
 /*
@@ -200,11 +238,6 @@ if (!angular.isUndefined($cookies.get('cart'))) {
      $scope.cart =  $cookies.getObject('cart');
 }
 
-$scope.cart2 = [];
-$scope.addItem = function(product){
-  $scope.cart2.push(product)
-  console.log($scope.cart2);
-}
 
 $scope.addItemToCart = function(product){
   console.log($scope.cart)
@@ -260,44 +293,6 @@ $scope.addItemToCart = function(product){
    
  };
 }
-
-function deleteCtrl ($http, $scope) {
-  $scope.deleteUser = function(data, index) {
-    console.log(index)
-    
-    $http({
-      method  : 'DELETE',
-      url     : 'http://localhost:3000/api/users' + '/' + data.id
-   }).then(function (response) {
-    var del_index = $scope.users.findIndex(function(d){return d.id == data.id});
-    console.log(del_index)
-    if(del_index>0)//if index of the id to be removed found
-      $scope.users.splice(del_index, 1);
-  
-    
-    //$scope.users.splice(index, 1)
-    console.log("deleted " + data.id)
-   })
-  
-   
-  }
-}
-
-
-function usersCtrl ($http, $scope) {
-  
-  $http({
-    method  : 'GET',
-    url     : 'http://localhost:3000/api/users',
- }).then(function (response) {
-    $scope.users = response.data.users;
- },function errorCallback(response) {
-  console.log(response)
-})
-
-
-}
-
 
 
 /*

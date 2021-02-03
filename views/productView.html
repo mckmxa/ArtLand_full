@@ -23,11 +23,7 @@ and open the template in the editor.
                 <div class="Logo">
                     <a href="#!/"><img src="views/images/logo.png" alt="ArtLand"></a>
                 </div>
-                <div class="Search">
-                    <input type="text" id="searchBar" placeholder="Wyszukaj..." />
-                    <button>Wyszukaj</button>
-                </div>
-                
+
                 <div class="Menu">
                     <div class="Upanel">
                         <div>Panel użytkownika</div>
@@ -35,7 +31,8 @@ and open the template in the editor.
                         <div>Koszyk</div>
                     </div>
                     <div ng-controller="logoutCtrl" class="Lpanel">
-                        <div ng-show="isLogged()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
+                        <div><a href="#!/cart" > <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
+                        <div ng-show="isAdministrator()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
                         <div ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
                         <div ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestuj </a> </div>
                         <div> <button id="logoutAnyFunction" class="logoutButton" type="submit" ng-click="anyFunction()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
