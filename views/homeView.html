@@ -82,7 +82,8 @@ and open the template in the editor.
                     <div class="iName">{{product.name}}</div>
                     <div class="iPrice">{{product.price}} zł</div>
                     <div class="iBuy">
-                        <button ng-hide="!isLogged()" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <button  class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <div> {{ canBuy }} </div>
                     </div>
                     
                 </div>

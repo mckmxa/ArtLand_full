@@ -65,6 +65,7 @@
 			
 			templateUrl : 'views/cartView.html',
 			controller : 'homeCtrl',
+			resolve:{onlyLogin:onlyLoggedIn}
 			
 		}).when("/users", {
 			

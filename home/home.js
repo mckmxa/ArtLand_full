@@ -10,6 +10,7 @@ angular.module('artland').controller('homeCtrl', homeCtrl)/*.controller('logoutC
     function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $route, $cookies) {
       $scope.user={}
       $scope.newuser={}
+      $scope.canBuy = ""
 
 
       $scope.isLogged = function () {
@@ -37,7 +38,8 @@ angular.module('artland').controller('homeCtrl', homeCtrl)/*.controller('logoutC
             Session.put('id' , results.data.id)
   
             console.log("logged in successfully, your id : " + results.data.id)
-
+            
+            $scope.canBuy = ""
 
             if(AuthService.getToken()){
               AuthService.isAdmin().then(function (response) {
@@ -160,6 +162,7 @@ $scope.logout = function () {
   
   
   $scope.addItemToCart = function(product){
+    if(AuthService.isLoggedIn()){
     console.log($scope.cart)
     console.log("dodaje produkt o id " + product.id + " " + product.name)
     console.log(product)
@@ -187,6 +190,9 @@ $scope.logout = function () {
    
     $scope.total += parseFloat(product.price);
     $cookies.put('total', $scope.total,  {'expires': expireDate});
+  } else {
+    $scope.canBuy = "Log in to buy items"
+  }
    };
   
    $scope.removeItemCart = function(product){
