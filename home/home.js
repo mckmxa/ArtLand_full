@@ -6,23 +6,27 @@ angular.module('artland').controller('homeCtrl', homeCtrl)/*.controller('logoutC
     homeCtrl.$inject = ['$rootScope', '$scope', '$http' ,'$location', 'Session' ,'AuthService','$route', '$cookies'];
     //logoutCtrl.$inject = ['$rootScope', '$scope', 'AuthService' ,'$location', '$route'];
     //cartCtrl.$inject = ['$http','$scope','$cookies'];
-  
+
+
+    /* main ctrl for homeview (login, register, logout, all products loading, cart) */
     function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $route, $cookies) {
       $scope.user={}
       $scope.newuser={}
       $scope.canBuy = ""
+      
 
-
+      /* helper functions to check if user is logged in or is an admin */
       $scope.isLogged = function () {
-        return AuthService.isLoggedIn();
+        return AuthService.isLoggedIn()
       }
       
-        
+      $scope.admin = $scope.isLogged()
       
         $scope.isAdministrator = function () {
           return $scope.admin;
         }
-  
+      
+        /* login form - sending http request to backend login endpoint with payload as form data and storing res in session */
       $scope.loginForm = function() {
 
         $http({
@@ -67,7 +71,8 @@ angular.module('artland').controller('homeCtrl', homeCtrl)/*.controller('logoutC
           });
   
       }
-  
+      
+      /* register form - sending http post request to backend register endpoint with payload as form data */
       $scope.registerForm = function() {
          // var pass = $scope.newuser.password;
          //var enc_pass = window.btoa(pass);
@@ -138,6 +143,8 @@ $scope.anyFunction = function () {
 }
 */
 
+/* logout -  clearing session data and updating scopes */
+
 $scope.logout = function () { 
   AuthService.logout();
   console.log("logged out successfully")
@@ -146,7 +153,7 @@ $scope.logout = function () {
 }
 
 
-
+/* cart implementation using ngCookies */
 
   $scope.cart = [];
   $scope.total = 0;
@@ -223,6 +230,8 @@ $scope.logout = function () {
 
 }
 
+/* controller to handle single product details */
+
 function productCtrl($http,$routeParams,$scope,AuthService) {
  /* console.log("is logged in? : " + AuthService.isLoggedIn())
   if(AuthService.getToken()){
@@ -250,7 +259,7 @@ function productCtrl($http,$routeParams,$scope,AuthService) {
 
 }
 
-
+/* controller to handle users listing and management */
 function usersCtrl ($http, $scope ,$timeout) {
   
   $http({
@@ -286,19 +295,3 @@ $scope.deleteUser = function(data, index) {
 }
 
 }
-
-
-
-
-/*
-var app = angular.module('artland', ['$scope', 'AuthService' ,'$location'])
-
-app.controller('signoutCtrl', function($scope, $location, AuthService) {
-console.log("signoutctrl start")
-    var ctrl = this;
-    $scope.logout = function () {
-        AuthService.logout()
-        $location.path('/')
-    }
-})
-*/
