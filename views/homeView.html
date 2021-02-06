@@ -22,6 +22,11 @@ and open the template in the editor.
                 </div>
                 <div class="Search">
                     <input type="text" id="searchBar" placeholder="Wyszukaj..." ng-model="searchText" />
+                    <select class="select" ng-model="filterCategory">
+                        <option value="">Wszystkie produkty</option>
+                        <option value="farby">Farby</option>
+                        <option value="pedzle">Pedzle</option>
+                    </select>
                 </div>
                 
                 <div class="Menu">
@@ -77,12 +82,13 @@ and open the template in the editor.
 
             <div class="Container">
                 <!-- wczytywanie  produktów ngrepeatem -->
-                <div class="item" ng-repeat="product in products | filter:searchText">
+                <div class="item" ng-repeat="product in products | filter:searchText | filter: filterCategory ? filterCategory:''"">
                     <div class="image">  <a href="#!/product/{{ product.id }}" ><img ng-src="{{product.image}}"></a> </div>
                     <div class="iName">{{product.name}}</div>
                     <div class="iPrice">{{product.price}} zł</div>
                     <div class="iBuy">
                         <button  class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <button  class="buyButton" ng-click="addToShoppingList(product)">test buy</button>
                         <div> {{ canBuy }} </div>
                     </div>
                     

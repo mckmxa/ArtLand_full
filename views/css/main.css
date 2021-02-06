@@ -95,6 +95,15 @@ i{
 	color: var(--main-color-red);
 	background: var(--main-color-white);
 }
+
+select {
+    width: 80%;
+    font-size: 14px;
+    border: 1px solid #CCC;
+    height: 34px;
+
+  }
+
 .Menu {
     grid-area: Menu;
 }
