@@ -31,9 +31,9 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
   /* helper function to get total items*/
   $scope.checkTotalItems = function () {
-    if($scope.totalItems > 0){
+    if ($scope.totalItems > 0) {
       return true
-    }else {
+    } else {
       return false
     }
   }
@@ -265,18 +265,18 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
 
   };
-  
-  
+
+
   $scope.placeOrder = function () {
     $scope.itemsArray = []
     for (var i = 0; i < $scope.cart.length; i++) { // przeszukaj koszyk 
-      $scope.itemsArray.push({id: $scope.cart[i].id, incart: $scope.cart[i].count })
-      }
-      $scope.neworder.push({userId: Session.get('id'),products: $scope.itemsArray})
+      $scope.itemsArray.push({ id: $scope.cart[i].id, incart: $scope.cart[i].count })
+    }
+    $scope.neworder.push({ userId: Session.get('id'), products: $scope.itemsArray })
     $http({
       method: 'POST',
-      url : 'http://localhost:3000/api/orders/new',
-      data : $scope.neworder[0]
+      url: 'http://localhost:3000/api/orders/new',
+      data: $scope.neworder[0]
 
     }).then(function (response) {
       console.log($scope.neworder[0])
@@ -297,14 +297,6 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 /* controller to handle single product details */
 
 function productCtrl($http, $routeParams, $scope, AuthService) {
-  /* console.log("is logged in? : " + AuthService.isLoggedIn())
-   if(AuthService.getToken()){
-   AuthService.isAdmin().then(function (response) {
-     console.log("is admin? : " + response.data)
-   }) 
-   
- }
-  */
 
   $http({
     method: 'GET',
@@ -325,6 +317,9 @@ function productCtrl($http, $routeParams, $scope, AuthService) {
 
 /* controller to handle users listing and management */
 function usersCtrl($http, $scope, $timeout) {
+
+  $scope.isOrder = true
+  $scope.orderState =""
 
   $http({
     method: 'GET',
@@ -355,9 +350,72 @@ function usersCtrl($http, $scope, $timeout) {
       console.log(response)
     });
 
+  
+  
+  }
+  $scope.getOrders = function (user) {
+    $scope.orders = []
 
+    $http({
+      method: 'GET',
+      url: 'http://localhost:3000/api/orders/user' + '/' + user.id,
+    })
+      .then(function (response) {
+        
+        $scope.orders = response.data;
+        console.log(response.data)
+        $scope.orderState= ""
+        $scope.isOrder = true
+        if(response.data.code === 1 )
+        {
+          $scope.orderState = "Brak zamówień"
+          $scope.isOrder = false
+        }
+      }
+        , function errorCallback(response) {
+          console.log(response)
+        });
   }
 
+  $scope.isOrderCheck = function () {
+    return $scope.isOrder
+  }
+
+  $scope.giveAdmin = function (user) {
+
+    var searchIndex = $scope.users.findIndex(function (s) { return s.id == user.id });
+    console.log(searchIndex)
+    $http({
+      method: 'PATCH',
+      url: 'http://localhost:3000/api/users' + '/' + user.id,
+      data: {role: "ROLE_ADMIN"}
+    })
+      .then(function (response) {
+        $scope.msg = response.data;
+        console.log($scope.msg +" "+ $scope.users[searchIndex].role)
+        $scope.users[searchIndex].role = "ROLE_ADMIN"
+      }
+        , function errorCallback(response) {
+          console.log(response)
+        });
+  }
+
+  $scope.revokeAdmin = function (user) {
+    var searchIndex = $scope.users.findIndex(function (s) { return s.id == user.id });
+    console.log(searchIndex)
+    $http({
+      method: 'PATCH',
+      url: 'http://localhost:3000/api/users' + '/' + user.id,
+      data: {role: "ROLE_USER"}
+    })
+      .then(function (response) {
+        $scope.msg = response.data;
+        $scope.users[searchIndex].role = "ROLE_USER"
+      }
+        , function errorCallback(response) {
+          console.log(response)
+        });
+  }
 }
 
 

@@ -27,7 +27,7 @@ const getAllOrders = (req, res) => {
     })
 }
 
-// Get Single Order
+/* Get Single Order */
 const getOneOrder = async (req, res) => {
     let orderId = req.params.id;
     const orderQuery = `SELECT o.id, p.title, p.description, p.price, p.image, od.quantity FROM orders_details as od JOIN orders as o ON o.id = od.order_id JOIN products as p ON p.id = od.product_id JOIN users as u ON u.id = o.user_id WHERE o.id = ${orderId}`
@@ -45,6 +45,26 @@ const getOneOrder = async (req, res) => {
  })
 }
 
+/* Get given user's orders */
+
+const getOrders = async (req, res) => {
+    let userId = req.params.id;
+    const orderQuery = `SELECT o.id, p.title, p.description, p.price, p.image, od.quantity FROM orders_details as od JOIN orders as o ON o.id = od.order_id JOIN products as p ON p.id = od.product_id JOIN users as u ON u.id = o.user_id WHERE u.id = ${userId}`
+    db.database.query(orderQuery, (error, results) => {
+        if (error) throw error
+   // response
+   if(results.length > 0){
+       res.json(results)
+   }
+   else{
+       res.json({message: `No orders found for id ${userId}`, code: 1});
+   }
+   res.statusCode = 200;
+   res.end()
+ })
+}
+
+/* Place New Order */
 const placeNewOrder = async (req,res) => {
     let {userId, products} = req.body;
     if (userId !== null && userId > 0) {
@@ -98,6 +118,7 @@ const placeNewOrder = async (req,res) => {
 router.get('/', getAllOrders)
 router.get('/:id', getOneOrder)
 router.post('/new', placeNewOrder)
+router.get('/user/:id', getOrders)
 
 
 module.exports = router;

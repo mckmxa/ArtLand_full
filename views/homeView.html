@@ -95,7 +95,8 @@ and open the template in the editor.
                     <div class="iName">{{product.name}}</div>
                     <div class="iPrice">{{product.price}} zł</div>
                     <div class="iBuy">
-                        <button  class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <button ng-show="{{product.quantity}} > 0" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <div ng-show="{{product.quantity}} == 0"> OUT OF STOCK </div>
                         <div> {{ canBuy }} </div>
                     </div>
                 </div>

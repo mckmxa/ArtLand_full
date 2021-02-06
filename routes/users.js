@@ -67,6 +67,7 @@ router.patch('/:userId', async (req, res) => {
         let userLastName = req.body.lname;
         let userUsername = req.body.username;
         let age = req.body.age;
+        let role = req.body.role;
 
         userEmail !== undefined ? userEmail = req.body.email : userEmail = user[0].email
         userPassword !== undefined ? userPassword = userPassword : userPassword = user[0].password
@@ -74,8 +75,9 @@ router.patch('/:userId', async (req, res) => {
         userFirstName !== undefined ? userFirstName = req.body.fname : userFirstName = user[0].fname
         userLastName !== undefined ? userLastName = req.body.lname : userLastName = user[0].lname
         age !== undefined ? age = req.body.age : age = user[0].age
+        role !== undefined ? role = req.body.role : role = user[0].role
 
-        db.database.query("UPDATE users SET email =?, password =?, username =?, fname = ?, lname =?, age =? WHERE id = ?", [userEmail, userPassword, userUsername, userFirstName, userLastName, age, userId ], (error, results) => {
+        db.database.query("UPDATE users SET email =?, password =?, username =?, fname = ?, lname =?, age =?, role =? WHERE id = ?", [userEmail, userPassword, userUsername, userFirstName, userLastName, age, role, userId ], (error, results) => {
             if (error) throw error
             if (results)
                 res.json('User updated successfully')

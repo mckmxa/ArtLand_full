@@ -30,6 +30,11 @@ and open the template in the editor.
                         <div>Zamówienia</div>
                         <div>Koszyk</div>
                     </div>
+                    <div ng-show="checkTotalItems()">
+                        Do zapłaty: {{total}} zł
+                        <br>
+                        W koszyku: {{totalItems}}
+                    </div>
                     <div class="Lpanel">
                         <div ng-show="isLogged()"><a href="#!/cart" > <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
                         <div ng-show="isAdministrator()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
@@ -82,7 +87,8 @@ and open the template in the editor.
                 <div class="product" ng-repeat="product in products">
                     <div class="product-img"><img ng-src="{{product.image}}"></div>
                     <div class="product-dsc"><span style="font-weight: bold; padding: 10px; font-size: 18px;"> {{product.name}} </span> <br/> {{product.description}} </div>
-                    <div class="product-buy">{{ product.cena }} &nbsp<button  class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                    <div class="product-buy">{{ product.cena }} &nbsp<button ng-show="{{product.quantity}} > 0" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <div ng-show="{{product.quantity}} == 0"> OUT OF STOCK </div>
                         <div> {{ canBuy }} </div>
                     </div>
                     

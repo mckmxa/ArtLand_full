@@ -1,10 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="artland">
+
+<head>
 
 
+</head>
 
-<div ng-repeat="u in users">ID: {{u.id}} First Name: {{u.fname}} Last Name: {{u.lname}} Username: {{u.username}}
-    <button ng-click="deleteUser(u, $index)">DELETE</button>
-    <button>ORDERS</button>
-</div>
+<body>
 
 
+    <div ng-repeat="u in users">ID: {{u.id}} First Name: {{u.fname}} Last Name: {{u.lname}} Username: {{u.username}}
+        Role: {{u.role}}
+        <button ng-click="deleteUser(u, $index)">DELETE</button>
+        <button ng-click="getOrders(u)">SHOW ORDERED ITEMS</button>
+        <button ng-click="giveAdmin(u)">GIVE ADMIN</button>
+        <button ng-click="revokeAdmin(u)">REVOKE ADMIN</button>
+    </div>
 
+    <div>
+        <div ng-show="isOrderCheck()" ng-repeat="o in orders">  Product name: {{o.title}} <br> Quantity: {{o.quantity}} </div>
+        <div ng-show="!isOrderCheck()"> {{orderState}} </div>
+        
+    </div>
+
+</body>
+
+</html>
