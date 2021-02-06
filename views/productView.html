@@ -82,7 +82,10 @@ and open the template in the editor.
                 <div class="product" ng-repeat="product in products">
                     <div class="product-img"><img ng-src="{{product.image}}"></div>
                     <div class="product-dsc"><span style="font-weight: bold; padding: 10px; font-size: 18px;"> {{product.name}} </span> <br/> {{product.description}} </div>
-                    <div class="product-buy">{{ product.cena }} &nbsp<button  class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button></div>
+                    <div class="product-buy">{{ product.cena }} &nbsp<button  class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
+                        <div> {{ canBuy }} </div>
+                    </div>
+                    
                 </div>
             </div>
             

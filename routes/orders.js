@@ -4,7 +4,7 @@ const db = require('../config/connection');
 
 // GET ALL ORDERS
 const getAllOrders = (req, res) => {
-    const ordersQuery = `SELECT o.id, p.title, p.description, p.price, u.username FROM orders_details as od JOIN orders as o ON o.id = od.order_id JOIN products as p on p.id = od.product_id JOIN users as u ON u.id = o.user_id ORDER BY o.id`
+    const ordersQuery = `SELECT o.id, p.title, p.description,p.quantity, p.price, u.username FROM orders_details as od JOIN orders as o ON o.id = od.order_id JOIN products as p on p.id = od.product_id JOIN users as u ON u.id = o.user_id ORDER BY o.id`
     db.database.query(ordersQuery, (error, results) => {
         if (error) throw error
     //payload
@@ -38,7 +38,7 @@ const getOneOrder = async (req, res) => {
        res.json(results)
    }
    else{
-       res.json({message: `No product found with id ${orderId}`});
+       res.json({message: `No order found with id ${orderId}`});
    }
    res.statusCode = 200;
    res.end()

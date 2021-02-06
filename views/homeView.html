@@ -57,11 +57,11 @@ and open the template in the editor.
                 <!-- Modal content -->
                 <div class="modal-content" style="text-align: center;">
                   <span class="close">&times;</span>
-                  <form ng-submit="loginForm()" class="form">
+                  <form id="lgnForm" ng-submit="loginForm()" class="form">
                     <input type="text" ng-model="user.username" placeholder="Login" required="" clearable/>
                     <input type="password" ng-model="user.password" placeholder="Hasło" required="" clearable/>
-                    <button type="submit" class="btn btn-success">Zaloguj</button><br />
-                    <span class="text-danger" style="color:red;">{{ error }}</span>
+                    <button type="submit" >Zaloguj</button><br />
+                    <div id="errorDiv"><span class="text-danger" style="color:red;">{{ error }}</span></div>
                   </form>
                 </div>
               
@@ -73,14 +73,14 @@ and open the template in the editor.
                 <!-- Modal content -->
                 <div class="modal-content" style="text-align: center;">
                   <span class="close">&times;</span>
-                  <form ng-submit="registerForm()" class="form">
+                  <form id="rgstrForm" ng-submit="registerForm()" class="form">
                     <input type="text"  placeholder="First Name" id="fname" ng-model="newuser.fname" required=""/>
                     <input type="text"  placeholder="Last Name" id="lname" ng-model="newuser.lname" required=""/>
                     <input type="text"  placeholder="Email" id="email" ng-model="newuser.email" required=""/>
                     <input type="text"  placeholder="Username" id="username" ng-model="newuser.username" required=""/>
                     <input type="password"  placeholder="Password" id="password" ng-model="newuser.password" required=""/>
-                    <button type="submit" class="btn btn-success">Zarejestuj sie</button><br />
-                    <span class="text-danger" style="color:red;">{{ error }}</span>
+                    <button type="submit">Zarejestuj sie</button><br />
+                    <div id="errorDiv"><span class="text-danger" style="color:red;">{{ error }}</span></div>
                   </form>
                 </div>
               
@@ -105,6 +105,8 @@ and open the template in the editor.
 
           </div>
           <script>
+            var form = document.getElementById("lgnForm");
+            var form2 = document.getElementById("rgstrForm");
             var modal = document.getElementById("loginModal");
             var modal2 = document.getElementById("registerModal");
 
@@ -119,17 +121,21 @@ and open the template in the editor.
             // When the user clicks on the button, open the modal
             btn.onclick = function() {
             modal.style.display = "block";
+            form.reset();
             }
 
             btn2.onclick = function() {
                 modal2.style.display = "block";
+                form2.reset();
             }
 
             // When the user clicks on <span> (x), close the modal
             span.onclick = function() {
+                form.reset();
                 modal.style.display = "none";
             }
             span2.onclick = function() {
+                form2.reset();
                 modal2.style.display = "none";
             }
 
@@ -138,6 +144,8 @@ and open the template in the editor.
             if (event.target == modal || event.target == modal2) {
                 modal.style.display = "none";
                 modal2.style.display = "none";
+                form.reset();
+                form2.reset();
             }
             }
             </script>

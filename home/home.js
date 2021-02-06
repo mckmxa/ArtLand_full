@@ -12,8 +12,10 @@ homeCtrl.$inject = ['$rootScope', '$scope', '$http', '$location', 'Session', 'Au
 function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $route, $cookies) {
   $scope.user = {}
   $scope.newuser = {}
+  $scope.neworder = []
   $scope.canBuy = ""
 
+  /*HELPERS */
 
   /* helper functions to check if user is logged in or is an admin */
   $scope.isLogged = function () {
@@ -37,6 +39,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
   }
 
 
+
   function refreshStatus() {
 
     var user = AuthService.getUser();
@@ -55,6 +58,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
     }
   }
 
+  /* MAIN FUNCTIONS */
   /* login form - sending http request to backend login endpoint with payload as form data and storing res in session */
   $scope.loginForm = function () {
 
@@ -73,6 +77,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       console.log("logged in successfully, your id : " + results.data.id)
 
       $scope.canBuy = ""
+      $scope.error = ""
 
       if (AuthService.getToken()) {
         AuthService.isAdmin().then(function (response) {
@@ -83,8 +88,6 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       }
 
       refreshStatus()
-
-
 
       document.getElementById("loginModal").style.display = "none";
     }, function errorCallback(response) {
@@ -260,7 +263,32 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
     $cookies.put('total', $scope.total, { 'expires': expireDate });
     $cookies.put('totalItems', $scope.totalItems, { 'expires': expireDate });
 
+
   };
+  
+  
+  $scope.placeOrder = function () {
+    $scope.itemsArray = []
+    for (var i = 0; i < $scope.cart.length; i++) { // przeszukaj koszyk 
+      $scope.itemsArray.push({id: $scope.cart[i].id, incart: $scope.cart[i].count })
+      }
+      $scope.neworder.push({userId: Session.get('id'),products: $scope.itemsArray})
+    $http({
+      method: 'POST',
+      url : 'http://localhost:3000/api/orders/new',
+      data : $scope.neworder[0]
+
+    }).then(function (response) {
+      console.log($scope.neworder[0])
+      $cookies.remove('cart')
+      $cookies.remove('total')
+      $cookies.remove('totalItems')
+      $scope.totalItems = 0;
+      $scope.total = 0;
+      $scope.cart = []
+      window.alert("Successfully placed order")
+    })
+  }
 
 
 
