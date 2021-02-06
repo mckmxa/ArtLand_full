@@ -124,68 +124,6 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
         console.log(response)
       });
 
-  /* scope cart implementation*/
-
-
-
-  $scope.addToShoppingList = function (product) {
-    var index = $scope.shopOffer.indexOf(product);
-    var itemToAdd = $scope.shopOffer[index];
-    itemToAdd.count = 1;
-    $scope.itemsToBuy.push(itemToAdd);
-    $scope.shopOffer.splice(index, 1);
-  };
-
-  $scope.removeFromCart = function (id) {
-    $scope.shopOffer.push($scope.itemsToBuy[id]);
-    $scope.itemsToBuy.splice(id, 1);
-  };
-
-  $scope.itemsToBuy = [];
-
-  $scope.getTotal = function () {
-    var total = 0;
-    if ($scope.itemsToBuy.length > 0) {
-      for (var i = 0; i < $scope.itemsToBuy.length; i++) {
-        var product = $scope.itemsToBuy[i];
-        total += (product.price * product.count);
-      }
-    }
-    return '$' + total.toFixed(2);
-  };
-
-  $scope.$watch('itemsToBuy', function () {
-    $scope.totalPrice = $scope.getTotal();
-  }, true);
-
-  $scope.checkLengthOfShoppingList = function () {
-    return $scope.itemsToBuy.length;
-  };
-
-  $scope.clearCart = function () {
-    for (var i = 0; i < $scope.itemsToBuy.length; i++) {
-      $scope.shopOffer.push($scope.itemsToBuy[i]);
-    }
-    $scope.itemsToBuy = [];
-  };
-
-  $scope.confirmOrder = function () {
-    window.alert("Your order is accepted.");
-  };
-
-  $scope.addQuantity = function (id) {
-    if ($scope.itemsToBuy[id].count < 15) {
-      $scope.itemsToBuy[id].count++;
-    }
-  };
-
-  $scope.substractQuantity = function (id) {
-    if ($scope.itemsToBuy[id].count > 0) {
-      $scope.itemsToBuy[id].count--;
-    }
-  };
-
-
 
   console.log(AuthService.isLoggedIn())
   var user = AuthService.getUser();
