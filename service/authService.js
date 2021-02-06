@@ -51,6 +51,7 @@ angular.module('artland').factory('AuthService', AuthService);
           Session.delete('id')
           Session.delete('cart')
           Session.delete('total')
+          Session.delete('totalItems')
       }  
   
       function getToken(){

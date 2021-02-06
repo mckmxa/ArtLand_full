@@ -22,8 +22,37 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
   $scope.admin = $scope.isLogged()
 
+
   $scope.isAdministrator = function () {
     return $scope.admin;
+  }
+
+  /* helper function to get total items*/
+  $scope.checkTotalItems = function () {
+    if($scope.totalItems > 0){
+      return true
+    }else {
+      return false
+    }
+  }
+
+
+  function refreshStatus() {
+
+    var user = AuthService.getUser();
+
+    if (user.username)
+      $scope.login_status = "Witaj " + user.username + "!"
+    else
+      $scope.login_status = ""
+
+    if (AuthService.getToken()) {
+      AuthService.isAdmin().then(function (response) {
+        $scope.admin = response.data
+      })
+    } else {
+      $scope.admin = false;
+    }
   }
 
   /* login form - sending http request to backend login endpoint with payload as form data and storing res in session */
@@ -53,12 +82,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
         $scope.admin = false;
       }
 
-      var user = AuthService.getUser();
-
-      if (user.username)
-        $scope.login_status = "Hello " + user.username + "!"
-      else
-        $scope.login_status = ""
+      refreshStatus()
 
 
 
@@ -116,22 +140,14 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
   })
     .then(function (response) {
       $scope.products = response.data.products;
-      $scope.shopOffer = response.data.products;
-      console.log($scope.shopOffer)
-
     }
       , function errorCallback(response) {
         console.log(response)
       });
 
 
-  console.log(AuthService.isLoggedIn())
-  var user = AuthService.getUser();
+  refreshStatus()
 
-  if (user.username)
-    $scope.login_status = "Hello " + user.username + "!"
-  else
-    $scope.login_status = ""
 
   /*
   $scope.anyFunction = function () {
@@ -149,6 +165,8 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
     console.log("logged out successfully")
     $scope.admin = false;
     $scope.login_status = ""
+    $scope.total = 0;
+    $scope.totalItems = 0;
   }
 
 
@@ -156,6 +174,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
   $scope.cart = [];
   $scope.total = 0;
+  $scope.totalItems = 0;
 
 
   if (!angular.isUndefined($cookies.get('total'))) {
@@ -164,6 +183,9 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
   if (!angular.isUndefined($cookies.get('cart'))) {
     $scope.cart = $cookies.getObject('cart');
+  }
+  if (!angular.isUndefined($cookies.get('totalItems'))) {
+    $scope.totalItems = $cookies.getObject('totalItems');
   }
 
 
@@ -205,6 +227,9 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       $scope.total += parseFloat(product.price);
       $cookies.put('total', $scope.total, { 'expires': expireDate });
 
+      $scope.totalItems += 1;
+      $cookies.put('totalItems', $scope.totalItems, { 'expires': expireDate });
+
     } else {
       $scope.canBuy = "Log in to buy items"
     }
@@ -227,11 +252,13 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       expireDate.setDate(expireDate.getDate() + 1);
       $cookies.putObject('cart', $scope.cart, { 'expires': expireDate });
       $scope.cart = $cookies.getObject('cart');
+      $scope.totalItems -= 1;
 
     }
 
     $scope.total -= parseFloat(product.price);
     $cookies.put('total', $scope.total, { 'expires': expireDate });
+    $cookies.put('totalItems', $scope.totalItems, { 'expires': expireDate });
 
   };
 

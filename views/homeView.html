@@ -35,6 +35,11 @@ and open the template in the editor.
                         <div>Zamówienia</div>
                         <div>Koszyk</div>
                     </div>
+                    <div ng-show="checkTotalItems()">
+                        Do zapłaty: {{total}} zł
+                        <br>
+                        W koszyku: {{totalItems}}
+                    </div>
                     <div class="Lpanel">
                         <div ng-show="isAdministrator()"><a href="#!/users"> <i class="fa fa-user fa-fw"></i> Admin </a></div>
                         <div ng-show="isLogged()"><a href="#!/cart"> <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
@@ -44,6 +49,7 @@ and open the template in the editor.
                         <div> {{login_status}} </div>
                     </div>
                 </div>
+                
                
             </div>
             <div id="loginModal" class="modal" >
@@ -80,6 +86,8 @@ and open the template in the editor.
               
             </div>
 
+            
+
             <div class="Container">
                 <!-- wczytywanie  produktów ngrepeatem -->
                 <div class="item" ng-repeat="product in products | filter:searchText | filter: filterCategory ? filterCategory:''"">
@@ -88,10 +96,8 @@ and open the template in the editor.
                     <div class="iPrice">{{product.price}} zł</div>
                     <div class="iBuy">
                         <button  class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
-                        <button  class="buyButton" ng-click="addToShoppingList(product)">test buy</button>
                         <div> {{ canBuy }} </div>
                     </div>
-                    
                 </div>
             </div>
 
