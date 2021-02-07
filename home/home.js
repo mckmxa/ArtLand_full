@@ -246,6 +246,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       expireDate.setDate(expireDate.getDate() + 1);
       $cookies.putObject('cart', $scope.cart, { 'expires': expireDate });
       $scope.cart = $cookies.getObject('cart');
+      $scope.totalItems -= 1;
     }
     else if (product.count === 1) {
 
