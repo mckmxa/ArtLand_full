@@ -36,7 +36,7 @@ function AuthService($http, $q, Session) {
 
       var http = $http({
         method: 'POST',
-        url: 'http://localhost:3000/api/auth/checkadmin' + '/' + Session.get('id'),
+        url: '/api/auth/checkadmin' + '/' + Session.get('id'),
       })
 
     }

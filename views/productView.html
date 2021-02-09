@@ -25,23 +25,16 @@ and open the template in the editor.
                 </div>
 
                 <div class="Menu">
-                    <div class="Upanel">
-                        <div>Panel użytkownika</div>
-                        <div>Zamówienia</div>
-                        <div>Koszyk</div>
-                    </div>
-                    <div ng-show="checkTotalItems()">
-                        Do zapłaty: {{total}} zł
-                        <br>
-                        W koszyku: {{totalItems}}
-                    </div>
+                    
+                    
+					<div> {{login_status}} </div>
                     <div class="Lpanel">
-                        <div ng-show="isLogged()"><a href="#!/cart" > <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
-                        <div ng-show="isAdministrator()" > <a href="#!/users" > <i class="fa fa-user fa-fw"></i> Admin </a> </div>
+                        <div ng-show="isAdministrator()"><a href="#!/users"> <i class="fa fa-user fa-fw"></i> Admin </a></div>
+                        <div ng-show="isLogged()"><a href="#!/cart"> <i class="fa fa-shopping-cart fa-fw"></i> Koszyk <span class="cart-count" ng-show="checkTotalItems()">{{totalItems}}</span></a>
+						</div>
+						<div ng-click="logout()" ng-hide="!isLogged()" ><a href="#"><i class="fa fa-sign-out fa-fw"></i>Wyloguj</a></div> 
                         <div ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
                         <div ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestruj </a> </div>
-                        <div> <button class="logoutButton" type="submit" ng-click="logout()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
-                        <div> {{login_status}} </div>
                     </div>
                 </div>
 
@@ -87,9 +80,8 @@ and open the template in the editor.
                 <div class="product" ng-repeat="product in products">
                     <div class="product-img"><img ng-src="{{product.image}}"></div>
                     <div class="product-dsc"><span style="font-weight: bold; padding: 10px; font-size: 18px;"> {{product.name}} </span> <br/> {{product.description}} </div>
-                    <div class="product-buy">{{ product.cena }} &nbsp<button ng-show="{{product.quantity}} > 0" class="buyButton" ng-click = "addItemToCart(product)">Add to cart</button>
-                        <div ng-show="{{product.quantity}} == 0"> OUT OF STOCK </div>
-                        <div> {{ canBuy }} </div>
+                    <div class="product-buy">{{ product.cena }} &nbsp<button ng-show="{{product.quantity}} > 0" class="buyButton" ng-click = "addItemToCart(product)">Dodaj do koszyka</button>
+                        <div ng-show="{{product.quantity}} == 0"><span style="color: red;"> Brak produktu w magazynie. </span> </div>
                     </div>
                     
                 </div>

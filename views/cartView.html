@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html ng-app="artland">
+    <head>
+        <title>Sklep</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="views/css/reset.css" rel="stylesheet" type="text/css"/>
+        <link href="views/css/main.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div class="grid-container">
+            <div class="Header">
+                <div class="Logo">
+                    <a href="#!/"><img src="views/images/logo.png" alt="ArtLand"></a>
+                </div>
+<div class="summary Search">
+					Zamówionych produktów: {{totalItems}} &nbsp Do zapłacenia: {{total.toFixed(2)}} zł &nbsp <button ng-click="placeOrder()">Zamów</button> 
+					</div>
+                <div class="Menu">
+                    
+                    
+					<div> {{login_status}} </div>
+                    <div class="Lpanel">
+                        <div ng-show="isAdministrator()"><a href="#!/users"> <i class="fa fa-user fa-fw"></i> Admin </a></div>
+                        <div ng-show="isLogged()"><a href="#!/cart"> <i class="fa fa-shopping-cart fa-fw"></i> Koszyk <span class="cart-count" ng-show="checkTotalItems()">{{totalItems}}</span></a>
+						</div>
+						<div ng-click="logout()" ng-hide="!isLogged()" ><a href="#"><i class="fa fa-sign-out fa-fw"></i>Wyloguj</a></div> 
+                       
+                    </div>
+                </div>
 
-  <head>
-    <meta charset="utf-8" />
-    <title>Koszyk</title>
-  </head>
+               
 
-  <body>
-    <div class="container">
-      <div>
+                
+            </div>
+              <!-- CONTAINER -->
+            <div class="Container" >
+					<div class="item" ng-repeat="c in cart">
+						<div class="image"><img src="https://i.imgur.com/z4F9OdA.jpg" /></div>
+						<div class="iName">{{c.name}}</div>
+						<div class="iPrice">Sztuk: {{c.count}} <br />
+						Cena: {{(c.price).toFixed(2)}} zł <br />
+						Suma: {{(c.price*c.count).toFixed(2)}} zł</div>
+						<div class="iBuy"><input class="buyButton" type="button" ng-click="removeItemCart(c)" value="Usuń z zamówienia" /></div>
+					</div>
+			</div>
+		</div>
+ 
         
-        
-        <div >
-          <h1>CART</h1>
-          <ul class="list-group">
-            <li class="list-group-item" ng-repeat="c in cart">
-              <h4>{{c.name}} |                <span style="color:blue"> {{c.count}} </span>
-                | {{c.price*c.count}} zł</h4>
-              <input class="btn btn-danger" type="button" ng-click="removeItemCart(c)" value="Remove" />
-            </li>
-          </ul>
-
-          Total : {{total}} zł
-
-          <button ng-click="placeOrder()"> PLACE ORDER </button>
-        </div>
-      </div>
-    </div>
   </body>
 
 </html>

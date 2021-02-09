@@ -26,6 +26,8 @@ and open the template in the editor.
                         <option value="">Wszystkie produkty</option>
                         <option value="farby">Farby</option>
                         <option value="pedzle">Pedzle</option>
+                        <option value="sztalugi">Sztalugi</option>
+                        <option value="palety">Palety</option>
                     </select>
                 </div>
                 
@@ -41,12 +43,13 @@ and open the template in the editor.
                         W koszyku: {{totalItems}}
                     </div>
                     <div class="Lpanel">
+                        <div> {{login_status}} </div>
                         <div ng-show="isAdministrator()"><a href="#!/users"> <i class="fa fa-user fa-fw"></i> Admin </a></div>
-                        <div ng-show="isLogged()"><a href="#!/cart"> <i class="fa fa-shopping-cart fa-fw"></i> Cart </a></div>
+                        <div ng-show="isLogged()"><a href="#!/cart"> <i class="fa fa-shopping-cart fa-fw"></i> Koszyk  <span class="cart-count" ng-show="checkTotalItems()">{{totalItems}}</span></a></div>
                         <div ng-show="!isLogged()" id="loginBtn"><a> <i class="fa fa-sign-in fa-fw" ></i>  Zaloguj </a> </div>
                         <div ng-show="!isLogged()" id="registerBtn"> <a> <i class="fa fa-user-plus fa-fw" ></i> Zarejestruj </a> </div>
-                        <div> <button class="logoutButton" type="submit" ng-click="logout()" ng-hide="!isLogged()" ><a> <i class="fa fa-sign-out"></i> Logout </button> </a> </div>
-                        <div> {{login_status}} </div>
+                        <div ng-click="logout()" ng-hide="!isLogged()" ><a href="#"><i class="fa fa-sign-out fa-fw"></i>Wyloguj</a></div> 
+                        
                     </div>
                 </div>
                 

@@ -64,7 +64,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
     $http({
       method: 'POST',
-      url: 'http://localhost:3000/api/auth/login',
+      url: '/api/auth/login',
       data: $scope.user, //forms user object
     }).then(function (results) {
 
@@ -106,7 +106,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
     // $scope.newuser.password = enc_pass;
     $http({
       method: 'POST',
-      url: 'http://localhost:3000/api/auth/register',
+      url: '/api/auth/register',
       data: $scope.newuser, //forms user object
     })
       .then(function (response) {
@@ -139,7 +139,7 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
   $http({
     method: 'GET',
-    url: 'http://localhost:3000/api/products',
+    url: '/api/products',
   })
     .then(function (response) {
       $scope.products = response.data.products;
@@ -192,12 +192,9 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
   }
 
 
-  $scope.addItemToCart = function (product) {
+$scope.addItemToCart = function (product) {
     if (AuthService.isLoggedIn()) {
-      console.log($scope.cart)
 
-      console.log("dodaje produkt o id " + product.id + " " + product.name)
-      console.log(product)
 
       if ($scope.cart.length === 0) {
         product.count = 1;
@@ -206,11 +203,18 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
 
 
       } else {
+        var stop
         var repeat = false;
         for (var i = 0; i < $scope.cart.length; i++) { // przeszukaj koszyk w poszukiwaniu juz istniejacego produktu
           if ($scope.cart[i].id === product.id) {
             repeat = true;
             $scope.cart[i].count += 1;
+            if(product.quantity < $scope.cart[i].count)
+            {
+                window.alert("Przekroczono ilosc dostępnych produktów")
+                $scope.cart[i].count = product.quantity
+                var stop = true;
+            }
           }
         }
         if (!repeat) {
@@ -220,6 +224,8 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
         }
       }
 
+      if(!stop)
+      {
       var expireDate = new Date();
       expireDate.setDate(expireDate.getDate() + 1);
 
@@ -227,15 +233,18 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       $cookies.putObject('cart', $scope.cart, { 'expires': expireDate });
       $scope.cart = $cookies.getObject('cart');
 
-      $scope.total += parseFloat(product.price);
+      $scope.total += product.price;
+      $scope.total = Math.round((parseFloat($scope.total)) * 10) / 10;
       $cookies.put('total', $scope.total, { 'expires': expireDate });
 
       $scope.totalItems += 1;
       $cookies.put('totalItems', $scope.totalItems, { 'expires': expireDate });
+      }
 
     } else {
       $scope.canBuy = "Log in to buy items"
     }
+
   };
 
   $scope.removeItemCart = function (product) {
@@ -261,6 +270,8 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
     }
 
     $scope.total -= parseFloat(product.price);
+	$scope.total = (Math.round((parseFloat($scope.total)) * 10) / 10);
+
     $cookies.put('total', $scope.total, { 'expires': expireDate });
     $cookies.put('totalItems', $scope.totalItems, { 'expires': expireDate });
 
@@ -274,12 +285,17 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       $scope.itemsArray.push({ id: $scope.cart[i].id, incart: $scope.cart[i].count })
     }
     $scope.neworder.push({ userId: Session.get('id'), products: $scope.itemsArray })
+    if($cookies.getObject('cart'))
+    {
     $http({
       method: 'POST',
-      url: 'http://localhost:3000/api/orders/new',
+      url: '/api/orders/new',
       data: $scope.neworder[0]
 
     }).then(function (response) {
+      
+        window.alert("Zlozono zamowienie!")
+      
       console.log($scope.neworder[0])
       $cookies.remove('cart')
       $cookies.remove('total')
@@ -287,9 +303,15 @@ function homeCtrl($rootScope, $scope, $http, $location, Session, AuthService, $r
       $scope.totalItems = 0;
       $scope.total = 0;
       $scope.cart = []
-      window.alert("Successfully placed order")
+      
     })
+  } else {
+    window.alert("Nie mozesz zlozyc pustego zamowienia")
   }
+  }
+  
+  
+
 
 
 
@@ -301,7 +323,7 @@ function productCtrl($http, $routeParams, $scope, AuthService) {
 
   $http({
     method: 'GET',
-    url: 'http://localhost:3000/api/products' + '/' + $routeParams.id,
+    url: '/api/products' + '/' + $routeParams.id,
   })
     .then(function (response) {
       $scope.products = response.data.product;
@@ -324,7 +346,7 @@ function usersCtrl($http, $scope, $timeout) {
 
   $http({
     method: 'GET',
-    url: 'http://localhost:3000/api/users',
+    url: '/api/users',
   }).then(function (response) {
     $scope.users = response.data.users;
   }, function errorCallback(response) {
@@ -335,7 +357,7 @@ function usersCtrl($http, $scope, $timeout) {
 
     $http({
       method: 'DELETE',
-      url: 'http://localhost:3000/api/users' + '/' + data.id
+      url: '/api/users' + '/' + data.id
     }).then(function (response) {
       var del_index = $scope.users.findIndex(function (d) { return d.id == data.id });
       console.log(del_index)
@@ -359,7 +381,7 @@ function usersCtrl($http, $scope, $timeout) {
 
     $http({
       method: 'GET',
-      url: 'http://localhost:3000/api/orders/user' + '/' + user.id,
+      url: '/api/orders/user' + '/' + user.id,
     })
       .then(function (response) {
         
@@ -388,7 +410,7 @@ function usersCtrl($http, $scope, $timeout) {
     console.log(searchIndex)
     $http({
       method: 'PATCH',
-      url: 'http://localhost:3000/api/users' + '/' + user.id,
+      url: '/api/users' + '/' + user.id,
       data: {role: "ROLE_ADMIN"}
     })
       .then(function (response) {
@@ -406,7 +428,7 @@ function usersCtrl($http, $scope, $timeout) {
     console.log(searchIndex)
     $http({
       method: 'PATCH',
-      url: 'http://localhost:3000/api/users' + '/' + user.id,
+      url: '/api/users' + '/' + user.id,
       data: {role: "ROLE_USER"}
     })
       .then(function (response) {

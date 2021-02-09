@@ -1,28 +1,90 @@
 <!DOCTYPE html>
 <html ng-app="artland">
-
-<head>
-
-
-</head>
-
-<body>
-
-
-    <div ng-repeat="u in users">ID: {{u.id}} First Name: {{u.fname}} Last Name: {{u.lname}} Username: {{u.username}}
-        Role: {{u.role}}
-        <button ng-click="deleteUser(u, $index)">DELETE</button>
-        <button ng-click="getOrders(u)">SHOW ORDERED ITEMS</button>
-        <button ng-click="giveAdmin(u)">GIVE ADMIN</button>
-        <button ng-click="revokeAdmin(u)">REVOKE ADMIN</button>
-    </div>
-
-    <div>
-        <div ng-show="isOrderCheck()" ng-repeat="o in orders">  Product name: {{o.title}} <br> Quantity: {{o.quantity}} </div>
-        <div ng-show="!isOrderCheck()"> {{orderState}} </div>
+    <head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link href="views/css/reset.css" rel="stylesheet" type="text/css"/>
+        <link href="views/css/main.css" rel="stylesheet" type="text/css"/>
+	<style>
+		.tg  {display: inline-table;border-collapse:collapse;border-spacing:0;}
+		.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+		  overflow:hidden;padding:10px 10px;word-break:normal;}
+		.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+		  font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+		.tg .tg-0lax{text-align:left;vertical-align:top}
+	</style> 
+    </head>
+    <body>
+        <div class="grid-container">
+            <div class="Header" ng-controller="homeCtrl">
+                <div class="Logo">
+                    <a href="#!/"><img src="views/images/logo.png" alt="ArtLand"></a>
+                </div>
+				<div class="Search">
+				<h1>Panel administracyjny</h1>
+				</div>
+                <div class="Menu">
+                    
+                    
+					<div> {{login_status}} </div>
+                    <div class="Lpanel">
+                        <div ng-show="isAdministrator()"><a href="#!/users"> <i class="fa fa-user fa-fw"></i> Admin </a></div>
+                        <div ng-show="isLogged()"><a href="#!/cart"> <i class="fa fa-shopping-cart fa-fw"></i> Koszyk <span class="cart-count" ng-show="checkTotalItems()">{{totalItems}}</span></a>
+						</div>
+						<div ng-click="logout()" ng-hide="!isLogged()" ><a href="#"><i class="fa fa-sign-out fa-fw"></i>Wyloguj</a></div> 
+                    </div>
+                </div>
+            </div>
+<div class="Container" style="text-align: center;">
+	<table class="tg">
+		<thead>
+		  <tr>
+			<th>Id</th>
+			<th>Imię</th>
+			<th>Nazwisko</th>
+			<th>Login</th>
+			<th>Email</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="u in users">
+			<td>{{u.id}}</td>
+			<td>{{u.fname}}</td>
+			<td>{{u.lname}}</td>
+			<td>{{u.username}}</td>
+			<td>{{u.role}}</td>
+			<td><button ng-click="deleteUser(u, $index)">Usuń użytkownika</button</td>
+			<td><button ng-click="getOrders(u)">Pokaż Zamówienia</button></td>
+			<td><button ng-click="giveAdmin(u)">Nadaj uprawnienia</button></td>
+			<td><button ng-click="revokeAdmin(u)">Odbierz uprawnienia</button></td>
+		  </tr>
+		</tbody>
+		</table>
         
+	<div ng-show="!isOrderCheck()" style="margin-top: 10px;"> {{orderState}} </div>
+    <div  ng-show="isOrderCheck()"  style="margin-top: 10px;">
+		<table class="tg" >
+			<thead>
+			  <tr>
+				<th>Id zamówienia</th>
+				<th>Produkt</th>
+				<th>Ilość</th>
+			  </tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="o in orders">
+					<td>{{o.id}}</td>
+					<td>{{o.title}}</td>
+					<td>{{o.quantity}}</td>
+				</tr>
+			</tbody>
+		</table>
     </div>
-
+	
+</div>
 </body>
 
 </html>
